@@ -21,6 +21,7 @@ There is an automatic cache expiration system, which runs through WordPress® be
 The Easy cache plugin has been tested with various permalink settings, various pagination plugins like `WP Pagenavi` and `WPML WordPress Multilingual Plugin`, other multi-language and custom pagination plugins however should also work, if you experience troubles, post your issue on the plugin's forum.
 
 **Supported languages**
+
 - English
 
 - French
