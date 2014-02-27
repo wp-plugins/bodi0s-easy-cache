@@ -2,9 +2,9 @@
 defined( 'ABSPATH' ) or exit();
 /*
 Plugin`s reading cache file
-Author: bodi0
+Author: Budiony Damyanov
 Email: budiony@gmail.com
-Version: 0.1
+Version: 0.2
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)
@@ -25,8 +25,8 @@ License: GPL2
 //Settings
 require('bodi0-easy-cache-settings.php');
 
-    $cachefile_created = ((file_exists($cachefile)) and ($ignore_page === false)) ? filemtime($cachefile) : 0;
-    //clearstatcache();
+  $cachefile_created = ((file_exists($cachefile)) and ($ignore_page === false)) ? filemtime($cachefile) : 0;
+    clearstatcache();
 
     // Show file from cache if still valid
     if (time() - $cachetime < $cachefile_created) {

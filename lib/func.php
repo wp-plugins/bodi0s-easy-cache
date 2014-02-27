@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin`s library of some handy functions
 Author: bodi0
 Email: budiony@gmail.com
-Version: 0.1
+Version: 0.2
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)
@@ -23,7 +23,7 @@ License: GPL2
 		Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-//Calculate web server load, for statistical purposes, Windows and UNIX
+//Calculate web server load, for statistical purposes, Windows and UNIX, @return string
 if (!function_exists('easy_cache_get_server_load1')) {
 function easy_cache_get_server_load1($windows = false) {
     $os=strtolower(PHP_OS);
@@ -66,7 +66,7 @@ function easy_cache_get_server_load1($windows = false) {
 }
 }
 
-//Calculate web server load, for statistical purposes, UNIX only
+//Calculate web server load, for statistical purposes, UNIX only, @return string
 if (!function_exists('easy_cache_get_server_load2') ) {
 	function easy_cache_get_server_load2() {
 		if(function_exists('sys_getloadavg')) {
@@ -78,7 +78,7 @@ if (!function_exists('easy_cache_get_server_load2') ) {
 	}
 }
 
-//Calculate web server memory usage
+//Calculate web server memory usage, @return float
 if (!function_exists('easy_cache_get_memory_usage_stats')) {
 function easy_cache_get_memory_usage_stats() {
 	if (function_exists("memory_get_usage")) 	$mem = memory_get_usage (false);
@@ -87,4 +87,81 @@ function easy_cache_get_memory_usage_stats() {
 	return round($mem/(1024*1024),2) ."MiB / ".round($mem_peak/(1024*1024),2) .'MiB';
 	}
 }
+//List folders and sub-folders contents with given file type, @return array
+if (!function_exists('easy_cache_list_folders')) {
+	function easy_cache_list_folders ($dir = "/", $file_type="*.css") {
+	//Get cache files created by plugin and calculate total size (filter [ and ], otherwise glob() will not function properly)
+	$items = glob( preg_replace('/(\*|\?|\[)/', '[$1]', $dir ). $file_type);
+
+	$count = count($items);
+	//
+    for ($i = 0; $i < $count; $i++) {
+        if (is_dir($items[$i])) {
+            $add = glob($items[$i] . $file_type);
+            $items = array_merge($items, $add);
+        }
+    }
+    return $items;
+	}
+}
+
+//Function to convert hex value to string
+if (!function_exists('easy_cache_hexstr')) {
+	function easy_cache_hexstr($hexstr) {
+	  $hexstr = str_replace(' ', '', $hexstr);
+	  $hexstr = str_replace('\x', '', $hexstr);
+	  $retstr = pack('H*', $hexstr);
+	  return $retstr;
+	}
+}
+//Function to convert string to hex value 
+if (!function_exists('easy_cache_strhex')) {
+	function easy_cache_strhex($string) {
+			$hexstr = unpack('H*', $string);
+		return array_shift($hexstr);
+	}
+
+}
+//Function for combining and minifying resource files (like CSS), @return string
+if (!function_exists("easy_cache_optimize_css_files")) {
+	function easy_cache_optimize_css_files($buffer = "") {
+ 
+	// Remove comments
+	//$buffer = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $buffer);
+
+	// Remove whitespace
+	$buffer = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), ' ', $buffer);
+	 
+	// Remove space after colons
+	$buffer = str_replace(array(': ',' :',' : '), ':', $buffer);
+	$buffer = str_replace(array('{ ',' {',' { '), '{', $buffer);
+	$buffer = str_replace(array('} ',' }',' } '), '}', $buffer);
+	$buffer = str_replace(array('; ',' ;',' ; '), ';', $buffer);
+ 	 
+	// Write everything out
+	return $buffer;
+	}
+}
+//Minify HTML contents
+if (!function_exists('easy_cache_html_compress')) {
+	function easy_cache_html_compress($buffer) {
+			// Remove extra tabs, spaces, newlines, etc.
+			$buffer = preg_replace('~(\s)\1+~', '$1', $buffer);
+			$buffer = str_replace(array("\t","\r"),"", $buffer);
+			return $buffer;
+	 }
+}
+
+//Check for correct URL according to http://www.faqs.org/rfcs/rfc2396
+if (!function_exists('easy_cache_is_url')) {
+function easy_cache_is_url($url) 
+{
+	if (function_exists("filter_var") && filter_var($url, FILTER_VALIDATE_URL)) {
+		return true;
+	} else {
+		return false;
+	}
+} 
+}
+
 ?>

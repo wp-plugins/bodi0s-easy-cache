@@ -2,9 +2,9 @@
 defined( 'ABSPATH' ) or exit();
 /*
 Plugin`s Administration panel
-Author: bodi0
+Author: Budiony Damyanov
 Email: budiony@gmail.com
-Version: 0.1
+Version: 0.2
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)
@@ -26,14 +26,22 @@ License: GPL2
 // Important: Check if current user is logged
 if ( !is_user_logged_in( ) )  die();
 
+require("lib/func.php");
+
 //Security check
 $nonce = isset($_REQUEST['_wpnonce']) ? $_REQUEST['_wpnonce'] : '';
+//Constant 
 
-global $wpdb, $post, $upload_dir;
+
+global $wpdb, $post, $upload_dir, $cssfile;
+$cssfile = '_css.min.css';
+/****************************************************************************************************************************/
+
+//Update settings 
 
 /****************************************************************************************************************************/
-//Update settings 
 if (
+isset($_POST['save-settings']) && $_POST['save-settings'] == 'save' &&
 isset($_POST['easy-cache-enable-cache']) &&
 isset($_POST['cache-folder']) && 
 isset($_POST['cache-time']) && 
@@ -59,7 +67,17 @@ $minify_cache = (!in_array($_POST['easy-cache-minify-cache-file'], array("Yes","
 $auto_rebuild_cache = (!in_array($_POST['easy-cache-auto-rebuild-cache-file'], array("Yes","No"))) ? 'Yes' : $_POST['easy-cache-auto-rebuild-cache-file'];
 
 //Array of excluded pages/posts
-$exclude_pages = (!empty($_POST['pages'])) ? serialize($_POST['pages']): array();
+$exclude_pages = (!empty($_POST['pages'])) ? maybe_serialize($_POST['pages']): array();
+//Array of minified CSS files
+$minified_css_files = (!empty($_POST['easy-cache-minify-css-files'])) ? explode("\n",$_POST['easy-cache-minify-css-files']) : array();
+//Initialize var
+$hex_minified_css_files = '';
+//Convert CSS URL to hex string before inserting in options table, only valid URL are accepted
+foreach ($minified_css_files as $minified_css_file) {
+	if( easy_cache_is_url(trim($minified_css_file)) ) {
+		$hex_minified_css_files .= easy_cache_strhex(trim($minified_css_file))."~~~";
+	}
+}
 
 	//Update the options
 	update_option('easy_cache_option_enable_caching', $enable_caching);
@@ -69,6 +87,7 @@ $exclude_pages = (!empty($_POST['pages'])) ? serialize($_POST['pages']): array()
 	update_option('easy_cache_option_exclude_pages', $exclude_pages);
 	update_option('easy_cache_option_minify_cache_file',$minify_cache);
 	update_option('easy_cache_option_auto_rebuild_cache_file',$auto_rebuild_cache);
+	update_option("easy_cache_option_minified_css_files", $hex_minified_css_files);
 
 //Response handling
 ?>
@@ -97,11 +116,11 @@ $cache_folder_created =	mkdir($cache_folder, 0755);
 
 /*****************************************************************************************************************************/
 
-
+//Delete cache files
 
 /****************************************************************************************************************************/
-//Delete cache files
-if (isset($_POST['delete-cache']) && $_POST['delete-cache']=='reset' 
+
+if (isset($_GET['delete-cache']) && $_GET['delete-cache']=='reset' 
 && ( wp_verify_nonce( $nonce, 'easy-cache-nonce' )) ) {
 //Clean unnecessary slashes
 $cache_folder = 	get_option('easy_cache_option_cache_folder');
@@ -137,17 +156,56 @@ $cache_folder_items = glob( preg_replace('/(\*|\?|\[)/', '[$1]', untrailingslash
 
 /*****************************************************************************************************************************/
 
+//Delete minified and combined CSS file
+
+/****************************************************************************************************************************/
+if (isset($_GET['delete-css']) && $_GET['delete-css']=='reset' 
+&& ( wp_verify_nonce( $nonce, 'easy-cache-nonce' )) ) {
+	$result = false;
+	//Clean unnecessary slashes
+	if (file_exists(get_stylesheet_directory(). DIRECTORY_SEPARATOR .$cssfile)) {
+		$result =	unlink(get_stylesheet_directory(). DIRECTORY_SEPARATOR .$cssfile);
+	}
+	if ($result) {
+	//Response handling
+		?>
+<div id="message" class="updated">
+  <p>
+<?php _e("Minified and combined CSS file ", "bodi0-easy-cache"); ?>
+    <strong><?php _e(" was deleted", "bodi0-easy-cache"); ?></strong>.<br />
+<?php		_e("If you want to re-create it, fill the corresponding textarea with URL of CSS files and save settings.", "bodi0-easy-cache"); ?><br />
+<strong><?php _e("Important","bodi0-easy-cache"); ?>:</strong>
+<?php _e("Keep in mind, that generated cached files *may* include the currently deleted CSS file, you have to re-build those files or re-create the CSS file.","bodi0-easy-cache"); ?>
+</div>
+<?php 
+	}
+	//CSS file cannot be found/or deleted
+	else { ?>
+		<div id="message" class="updated error">
+  <p><?php _e("Minified and combined CSS file ", "bodi0-easy-cache"); ?> <code><?php echo $cssfile ?></code>
+  <?php _e(" cannot be found or cannot be deleted.","bodi0-easy-cache"); ?></p>
+</div>
+<?php		}
+
+}
+
+
+
+/*****************************************************************************************************************************/
+
 //Restore default settings of the plugin
+
 /******************************************************************************************************************************/
 
 if(isset($_GET['restore']) && $_GET['restore']=='defaults' && ( wp_verify_nonce( $nonce, 'easy-cache-nonce' ))) {
 	update_option("easy_cache_option_cache_time","5");
 	update_option("easy_cache_option_cache_folder",untrailingslashit($upload_dir['basedir']).DIRECTORY_SEPARATOR."cached".DIRECTORY_SEPARATOR);
-	update_option("easy_cache_option_exclude_search_queries","Yes");
+	update_option("easy_cache_option_exclude_search_queries","No");
 	update_option("easy_cache_option_exclude_pages","");
 	update_option("easy_cache_option_enable_caching","No");
 	update_option("easy_cache_option_minify_cache_file","Yes");
 	update_option("easy_cache_option_auto_rebuild_cache_file","Yes");
+	update_option("easy_cache_option_minified_css_files","");
 //Response handling
 ?>
 <div id="message" class="updated">
@@ -170,6 +228,7 @@ a {
 .small{font-size: 0.7em; color:gray}
 .delete:hover, .cancel:hover, .trash:hover, .delete, .trash, .cancel {color:#c00 !important;}
 ul.children li {margin-left:1em;}
+textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
 </style>
 <div class="wrap">
   <h2>
@@ -185,8 +244,8 @@ ul.children li {margin-left:1em;}
 <div style="background-color:#ccc;width:100%;height:1px"></div>
 <br />
 
-    <strong><?php _e("Important","bodi0-easy-cache"); ?></strong>: <?php _e("Make sure the call to <code>wp_footer();</code> function is at the very bottom in your theme`s <code>footer.php</code> file, right before closing <code>< /body></code> tag. Otherwise contents after <code>wp_footer();</code> may be not included in generated cache file.","bodi0-easy-cache"); ?><br />
-<strong><?php _e("Important","bodi0-easy-cache"); ?></strong>: <?php _e("Remember to logout or use different browser if you want to test if caching mechanism is working, only not logged-in users can benefit from caching.","bodi0-easy-cache"); ?>
+    <strong><?php _e("Important","bodi0-easy-cache"); ?>:</strong> <?php _e("Make sure the call to <code>wp_footer();</code> function is at the very bottom in your theme`s <code>footer.php</code> file, right before closing <code>< /body></code> tag. Otherwise contents after <code>wp_footer();</code> may be not included in generated cache file.","bodi0-easy-cache"); ?><br />
+<strong><?php _e("Important","bodi0-easy-cache"); ?>:</strong> <?php _e("Remember to logout or use different browser if you want to test if caching mechanism is working, only not logged-in users can benefit from caching.","bodi0-easy-cache"); ?>
   </p>
   <?php if (get_option('easy_cache_option_enable_caching') !='Yes') { ?>
 <div id="message" class="updated error">
@@ -194,6 +253,7 @@ ul.children li {margin-left:1em;}
     <?php _e("Warning: Caching is disabled, your blog will display non-cached pages to users", "bodi0-easy-cache"); ?>.</p>
 </div>	<?php		}?>
   <form name="form-cache" id="form-cache" action="?page=<?php echo $_GET['page']; ?>" method="post">
+  <input type="hidden" name="save-settings" value="save"/>
     <table class="widefat">
       <thead>
       <tr><th colspan="2"><?php _e("Parameters","bodi0-easy-cache"); ?></th></tr>
@@ -339,7 +399,7 @@ ul.children li {margin-left:1em;}
 				
 				//Get excluded pages from options (if any) and covert them to array
 				$excluded = get_option('easy_cache_option_exclude_pages');
-				$excluded = (!is_array($excluded)) ? unserialize($excluded) : '';
+				$excluded = (!is_array($excluded)) ? maybe_unserialize($excluded) : '';
 				$checked = '';
 				foreach ( $pages as $page ) {
 					//If page is excluded then check it...
@@ -376,8 +436,6 @@ ul.children li {margin-left:1em;}
 				$posts = get_posts( $args_posts );
 				
 				//Get excluded pages from options (if any) and covert them to array
-				/*$excluded = get_option('easy_cache_option_exclude_pages');
-				$excluded = (!is_array($excluded)) ? unserialize($excluded) : '';*/
 				$checked = '';
 				foreach ( $posts as $post ) {
 					//If page is excluded then check it...
@@ -392,10 +450,77 @@ ul.children li {margin-left:1em;}
           </div>
           </td>
       </tr>
+      <tr>
+           
       
+      <th valign="top"><?php _e("Minify and combine CSS files","bodi0-easy-cache"); ?>:
+      <div class="small"><?php _e("Insert absolute URL (valid URL according RFC 2396) of CSS files in sequence of their appearance in non-cached page for minification and combination. This process will reduce the number and size of HTTP requests to your server. The CSS files will be merged as single cached CSS resource file, named<code>_css.min.css</code> and saved in your current theme's folder.","bodi0-easy-cache"); 			
+			?>
+			<br />
+	<?php	_e("This file will be included in every cached file, old links will be removed.","bodi0-easy-cache"); ?><br />
+<strong><?php _e("Important","bodi0-easy-cache");?>:</strong><br />
+<?php _e("Make sure that any URL inside the original CSS code is abosulte, not relative (otherwise you will have missing backrounds).  Also make sure you type the URL of files you want to combine and minify exactly as it is in your original page / post (for example some stylesheets links may have dynamic content attached to them, like: <u>http://www.example.com/color.php?ver=1.2</u>), otherwise minification and combination will not work correctly. If you modify the original CSS files, remember to save settings here in order to re-generate cached CSS resource file.","bodi0-easy-cache"); ?><br />
+
+</div>
+      </th>
+     <?php
+			/* Display CSS minification and combination option only if 'allow_url_fopen' is true */
+			if (ini_get("allow_url_fopen")) {
+			?>
+     
+      <td>
+      <strong><?php _e("URL of CSS files, one per line","bodi0-easy-cache"); ?></strong>
+      <textarea name="easy-cache-minify-css-files" id="easy-cache-minify-css-files" style="width:400px;height:300px;" ><?php 
+			
+			//Initialize the arrays and the buffer
+			$minified_css_files = array();
+			$new_minified_css_files = array();
+			$buffer = '';
+
+			//Decode the values from hex to string...and convert it to array()
+			$minified_css_files =  explode("~~~",get_option("easy_cache_option_minified_css_files")); 
+			$minified_css_files_list = '';
+			foreach($minified_css_files as $value) {
+				$minified_css_files_list .= easy_cache_hexstr($value)."\n";
+				$new_minified_css_files[] =  trim(easy_cache_hexstr($value));
+				
+			}
+				//Remove last new line from results
+				echo rtrim($minified_css_files_list,"\n");
+			//Check to see if CSS files needs to be minified and combined and generate the file only is user save the settings
+			if (!empty($new_minified_css_files) && isset($_POST['save-settings']) && $_POST['save-settings'] == 'save') {		 
+				foreach( $new_minified_css_files as $new_minified_css_file)  {
+					if (trim($new_minified_css_file) != '' && easy_cache_is_url($new_minified_css_file)) $buffer .= "\n".'/****File '.$new_minified_css_file.'****/'."\n". 
+					@file_get_contents($new_minified_css_file);
+				}
+			//Write new CSS minified and combined file if contents not empty 
+			if (trim($buffer) != '')	@file_put_contents(get_stylesheet_directory() .DIRECTORY_SEPARATOR. $cssfile, 
+			"/*Merged CSS files on ".gmdate('D, Y-m-d H:i:s')." GMT*/"."\n".easy_cache_optimize_css_files($buffer));
+		
+				}
+		//No minification and combination of CSS
+		else {
+			//
+		}	
+				
+				
+				
+				?></textarea>
+      </td>
+     
+     <?php
+			}
+			/* The 'allow_url_fopen' is set to false, so no CSS minification and combination is possible */
+			else { ?>
+			<td><?php _e("The <code>allow_url_fopen</code> variable is set to <code>Off</code> in your <code>php.ini</code> configuration, no CSS minification and combination is possible. Contact your hosting company or web server administrator for details how this can be changed.","bodi0-easy-cache"); ?></td>	
+		 <?php }
+		 //
+		 ?>
+     
+      </tr>
       
       <tr>
-        <td colspan="2"><p>
+        <td colspan="2" valign="top"><p>
             <input type="submit" name="submit" class="button-primary submit" value="<?php _e("Save settings","bodi0-easy-cache"); ?>"/>
             &nbsp;<a accesskey="c" href="javascript:void(0)" onclick="document.getElementById('form-cache').reset();" class="button-secondary cancel"><?php _e("Reset", "bodi0-easy-cache"); ?></a> 
             &nbsp;<a accesskey="d" href="?page=<?php echo $_GET['page']; ?>&amp;restore=defaults&amp;_wpnonce=<?php echo wp_create_nonce( 'easy-cache-nonce' ) ?>" class="button-secondary cancel"><?php _e("Restore default settings", "bodi0-easy-cache"); ?></a> 
@@ -422,13 +547,15 @@ wp_nonce_field( 'easy-cache-nonce' );
 	$total_cache_time = array();
 	$total_cache_file_total = 0;
 	$total_cache_age_total = 0;
-	$average_cache_size = 0;
+	
 	$min_cache_file_size = 0;
 	$max_cache_file_size = 0;
+	$average_cache_size = 0;
 	
 	$min_cache_time_display = '';
 	$max_cache_time_display = '';
 	$avg_cache_time_display = '';
+	
 	$avg_cache_age = 0;
 	$min_cache_age = 0;
 	$max_cache_age = 0;
@@ -538,7 +665,6 @@ wp_nonce_field( 'easy-cache-nonce' );
       </th>
       <td>
 			<strong><?php 
-				require("lib/func.php");
 				$load_data = array();
 				$load_data = easy_cache_get_server_load2(); 
 			 	if (!empty($load_data)) {
@@ -563,6 +689,27 @@ wp_nonce_field( 'easy-cache-nonce' );
       <td><strong><?php echo $i ?></strong></td>
     </tr>
     <tr class="alternate">
+    <th valign="top"><?php _e("Minified and combined CSS file","bodi0-easy-cache"); ?>:
+    <div class="small"><?php _e("Details about size of minified and combined CSS file, in folder: ","bodi0-easy-cache"); ?>
+    <br />
+    <?php echo "<code>".get_stylesheet_directory()."</code>"; ?>
+    </div>
+    </th>
+    <td><strong>
+    <?php 
+		//Flag
+		$css_file_exists = 0;
+			//
+			if (file_exists(get_stylesheet_directory()."/".$cssfile)) {
+				echo round( filesize(get_stylesheet_directory()."/".$cssfile )/ 1024,2); 	
+				_e("KiB","bodi0-easy-cache");  _e(" created on ","bodi0-easy-cache"); echo date("Y-m-d H:i:s",filemtime(get_stylesheet_directory()."/".$cssfile));
+				$css_file_exists = 1;
+			}
+				else _e("Not Available","bodi0-easy-cache");
+		?></strong>
+    </td>
+    </tr>
+    <tr>
       <th valign="top"><?php _e("Cache files age (min/max/avg)","bodi0-easy-cache"); ?>:
       <div class="small"><?php _e("Displays freshness of the cached files.","bodi0-easy-cache"); ?></div>
       </th>
@@ -574,7 +721,7 @@ wp_nonce_field( 'easy-cache-nonce' );
 			}
 			?></strong></td>
     </tr>
-    <tr>
+    <tr class="alternate">
       <th valign="top"><?php _e("Cache files size (min/max/avg)","bodi0-easy-cache"); ?>:
       <div class="small"><?php _e("Displays smallest, largest and averaged size of saved cached files.","bodi0-easy-cache"); ?></div>
       </th>
@@ -583,7 +730,7 @@ wp_nonce_field( 'easy-cache-nonce' );
 			echo ' / '.round($max_cache_file_size/1024,2);_e("KiB","bodi0-easy-cache");
 			echo ' / '. round($average_cache_size/1024,2); _e("KiB","bodi0-easy-cache");?></strong></td>
     </tr>
-    <tr class="alternate">
+    <tr>
     <th valign="top">
     <?php _e("Total space occupied by cache files","bodi0-easy-cache"); ?>:
         </th>
@@ -598,14 +745,13 @@ wp_nonce_field( 'easy-cache-nonce' );
         </td></tr>
     <tr>
       <td colspan="2">
-        <form name="form-delete-cache" id="form-delete-cache" action="?page=<?php echo $_GET['page']; ?>" method="post">
-          <input name="delete-cache" value="reset" type="hidden"/>
-          <a accesskey="c" href="javascript:void(0)" onclick="document.getElementById('form-delete-cache').submit();" class="button-secondary cancel"><?php _e("Delete all cache files", "bodi0-easy-cache"); ?></a>
-          
-<?php 
-//Nonce field
-wp_nonce_field( 'easy-cache-nonce' );   ?>        
-        </form>
+   &nbsp;<a accesskey="c" href="?page=<?php echo $_GET['page']; ?>&amp;delete-cache=reset&amp;_wpnonce=<?php echo wp_create_nonce( 'easy-cache-nonce' ) ?>" class="button-secondary cancel"><?php _e("Delete all cached files", "bodi0-easy-cache"); ?></a> 
+
+<?php if ($css_file_exists == 1) { ?>
+   &nbsp;<a accesskey="s" href="?page=<?php echo $_GET['page']; ?>&amp;delete-css=reset&amp;_wpnonce=<?php echo wp_create_nonce( 'easy-cache-nonce' ) ?>" class="button-secondary cancel"><?php _e("Delete combined and minified CSS file", "bodi0-easy-cache"); ?></a> 
+
+<?php   } ?>
+
         </td>
     </tr>
     </tbody>

@@ -4,12 +4,12 @@ defined( 'ABSPATH' ) or exit();
 Plugin Name: bodi0`s Easy cache
 Plugin URI: 
 Description: Cashes the pages/posts in your blog for improved performance.
-Version: 0.1
+Version: 0.2
 Text Domain: bodi0-easy-cache
 Domain Path: /languages
-Author: bodi0
+Author: Budiony Damyanov
+Author URI: mailto:budiony@gmail.com
 Email: budiony@gmail.com
-Author URI: 
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)
@@ -43,7 +43,8 @@ $plugin_options = array(
 'easy_cache_option_exclude_pages'=>'',
 'easy_cache_option_enable_caching'=>'No',
 'easy_cache_option_minify_cache_file'=>'Yes', 
-'easy_cache_option_auto_rebuild_cache_file'=>'Yes'
+'easy_cache_option_auto_rebuild_cache_file'=>'Yes',
+'easy_cache_option_minified_css_files'=>''
 
 
 );
@@ -56,8 +57,8 @@ $exclude_search_queries = get_option('easy_cache_option_exclude_search_queries')
 add_action('init', 'easy_cache_plugin_internationalization');
 /*Admin menu page*/
 add_action('admin_menu', 'easy_cache_admin_actions');
-/*Attach cache function to template redirect http://codex.wordpress.org/Plugin_API/Action_Reference/template_redirect */
-add_action('template_redirect', 'easy_cache_start');
+/*Attach cache function to send_headers http://codex.wordpress.org/Plugin_API/Action_Reference/send_headers */
+add_action('send_headers', 'easy_cache_start');
 add_action('wp_print_footer_scripts','easy_cache_end', PHP_INT_MAX); //Inserted in footer with low priority
 
 /*Settings link*/
@@ -65,6 +66,11 @@ add_filter('plugin_action_links_'.$plugin, 'easy_cache_plugin_add_settings_link'
 /*Actions when post/page is updated or deleted*/
 add_action('edit_post', 'easy_cache_post_page_edited', 100);
 add_action('delete_post', 'easy_cache_post_page_deleted', 100);
+/*Actions when comment is inserted, deleted or status is changed*/
+add_action('edit_comment', 'easy_cache_post_page_edited', 100);
+add_action('comment_post', 'easy_cache_post_page_edited', 100);
+add_action('delete_comment', 'easy_cache_update_delete_comment',100);
+add_action('wp_set_comment_status', 'easy_cache_update_delete_comment', 100);
 
 /*Action executed when plugin is uninstalled*/
 register_uninstall_hook(__FILE__, 'easy_cache_uninstall' );
@@ -79,8 +85,8 @@ if (!function_exists('easy_cache_install')) {
 	function easy_cache_install() {
 		
 		global $wpdb, $plugin_options;
-		if (version_compare(PHP_VERSION, '5.2.4', '<'))	{
-			_easy_cache_trigger_error('PHP version below 5.2.4 is not supported. Please upgrade to PHP 5.2.4 or newer.', E_USER_ERROR);
+		if (version_compare(PHP_VERSION, '5.3.6', '<'))	{
+			_easy_cache_trigger_error('PHP version below 5.3.6 is not supported, because of the heavy usage of class <code>DOMDocument</code> and his method <code>saveHTML</code>. Even if version PHP 5.3.6 was released in March 2011 ('.(date('Y') - 2011).' years ago), it appears, that there are still lazy and careless hosting service providers. Please yell to those "system administrators" and upgrade to PHP 5.3.6 or newer.', E_USER_ERROR);
 			die();
 		}
 		// Important: Check if current user can install plugins
@@ -162,7 +168,7 @@ if (!function_exists('easy_cache_start')) {
 		
 		if (get_option('easy_cache_option_enable_caching') =='Yes')
 		//Use caching mechanism only if it is enabled
-		include_once (dirname( __FILE__ ). DIRECTORY_SEPARATOR. '_ec-start.php');
+		include_once (dirname( __FILE__ ). DIRECTORY_SEPARATOR. 'bodi0-easy-cache-start.php');
 		else;
 		}	
 }
@@ -171,7 +177,7 @@ if (!function_exists('easy_cache_end')) {
 	function easy_cache_end() {
 		if (get_option('easy_cache_option_enable_caching') =='Yes') {
 			//Use caching mechanism only if it is enabled
-			include_once (dirname( __FILE__ ). DIRECTORY_SEPARATOR. '_ec-end.php');
+			include_once (dirname( __FILE__ ). DIRECTORY_SEPARATOR. 'bodi0-easy-cache-end.php');
 		}
 		else;
 	}	
@@ -196,21 +202,33 @@ if (!function_exists('easy_cache_post_page_edited')) {
 	}
 }
 
-
-
 //Custom function for permanent cache file deletion
 if (!function_exists('easy_cache_delete_cached_file')) {
-function easy_cache_delete_cached_file() {		
+function easy_cache_delete_cached_file($post_id = '') {		
 //
 $result = false;
+$page = '';
+if (empty($post_id)) $page = sha1(get_permalink());
+else $page = sha1(get_permalink($post_id));
 //File checks
-	if ( file_exists( get_option('easy_cache_option_cache_folder') . DIRECTORY_SEPARATOR . sha1(get_permalink() ) .'.cache') ) 		 
-			$result =	unlink( get_option('easy_cache_option_cache_folder') . DIRECTORY_SEPARATOR . sha1(get_permalink() ). '.cache' );
+	if ( file_exists( get_option('easy_cache_option_cache_folder') . DIRECTORY_SEPARATOR . $page  .'.cache') ) 		 
+			$result =	unlink( get_option('easy_cache_option_cache_folder') . DIRECTORY_SEPARATOR . $page . '.cache' );
 		//
 	}
 }
 
-
+//Custom function for associated cached file deletion on comment delete
+if (!function_exists('easy_cache_update_delete_comment')) {
+	function easy_cache_update_delete_comment($comment){
+			if ( !is_object( $comment ) ){
+					$comment = get_comment( $comment );
+			}
+			//Get the associated page/post ID
+			$post_id = $comment->comment_post_ID;
+			//Pass the page/post ID to the function
+			easy_cache_delete_cached_file($post_id);
+	}
+}
 
 //Custom error handling
 if (!function_exists('_easy_cache_trigger_error')) {

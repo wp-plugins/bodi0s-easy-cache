@@ -2,9 +2,9 @@
 defined( 'ABSPATH' ) or exit();
 /*
 Plugin`s caching variables settings
-Author: bodi0
+Author: Budiony Damyanov
 Email: budiony@gmail.com
-Version: 0.1
+Version: 0.2
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)
@@ -29,45 +29,51 @@ $webpage: Our web page content;
 $excluded: Our array containing excluded pages (as IDs);
 $page: First part of cache file name;
 $ignore_page: Marker, flag if the page should be excluded or not from caching;
-$front_page: 
-$multipage: WordPress global variable, that denote whether or not a post is paginated or not (returns zero if not);
-$paged: WordPress search global variable, that denote whether or not a post is paginated or not (returns zero if not);
 */
-		global $cachefile, $webpage, $excluded, $page, $ignore_page, $front_page, $multipage, $paged;
-		//Marker
-    $ignore_page = false; 
-		//DISABLE CACHING FOR LOGGED-IN USERS!
-		if (is_user_logged_in()) $ignore_page = true;
 		
-		// Directory to cache files in, unique name based on sha1 hash of home URL (keep outside web root)
-    $cachedir = get_option('easy_cache_option_cache_folder'); 
+		
+	global $cachefile, $webpage, $excluded, $page, $ignore_page;
+	//Marker
+	$ignore_page = false; 
+	//DISABLE CACHING FOR LOGGED-IN USERS!
+	if (is_user_logged_in()) $ignore_page = true;
+	//Get the web server protocol (non-empty value if the script was queried through the HTTPS protocol)
+	$server_protocol = (!empty($_SERVER['HTTPS'])) ? "https://" : "http://";
+	// Directory to cache files in, unique name based on sha1 hash of home URL (keep outside web root)
+	$cachedir = get_option('easy_cache_option_cache_folder'); 
     
-		$cachetime = 60 * (float)get_option('easy_cache_option_cache_time');    //5min by default
-    $page = ''; // Requested page
-		if(is_home() || is_front_page() || is_search() || is_404() || is_archive() || is_feed() || $multipage> 0 || $paged> 0)   
-			$page = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		else $page = get_permalink();
+	$cachetime = 60 * (float)get_option('easy_cache_option_cache_time');    //5min by default
+	// The Requested page ID
+	$page_id = url_to_postid($server_protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);  
+	// Parse the request into array
+	$parsed_url = parse_url($server_protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+	// Get paged variable (we exepct to have paged and/or numpages for multipage posts/pages)
+	if (isset($parsed_url['query'])) parse_str($parsed_url['query']);
+	//Build the URL 
+	if ($page_id>0 && !isset($paged) && !isset($numpages)) $page = get_permalink($page_id);
+	else $page = $server_protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		
-		$cachefilename = sha1($page); //Cache file name is constructed as SHA1 hash of requested URL
-    $cachefile =  $cachedir.$cachefilename.'.cache';// Cache file to either load or create
+		
+		//Cache file name is constructed as SHA1 hash of requested URL
+		$cachefilename = sha1($page); 
+		// Cache file to either load or create
+    $cachefile =  $cachedir.$cachefilename.'.cache';
+		//File name for combined and minified CSS files
+		$cssfile = '_css.min.css'; 
+
 		// Excluded pages list
     $excluded = get_option('easy_cache_option_exclude_pages');
 		//
-		$excluded = (!is_array($excluded)) ? @unserialize($excluded) : array();
+		$excluded = (!is_array($excluded)) ? maybe_unserialize($excluded) : array();
 		
-		//Annonymous function callback to get link to the requested page (transform it as permalink from page ID)
-		//$callback = function($value) {
-		//	return get_permalink($value);
-		//};		
+		//Annonymous function callback to get link to the requested page (transform it as permalink from page ID), PHP 5.3 or higher
+		$callback = function($value) {
+			return get_permalink($value);
+		};		
 		
-		if (!function_exists('easy_cache_convert_to_permalinks')) {
-			function easy_cache_convert_to_permalinks($value) {
-				return get_permalink($value);
-			};
-		}				
-		
+	
 		//Modify excluded pages IDs (and convert them to array if they are not already an array)
-		$excluded = (array_map("easy_cache_convert_to_permalinks", (array)$excluded));
+		$excluded = (array_map($callback, (array)$excluded));
 		
 		//Cached count of the list for faster looping
 		$number_of_excluded = count($excluded);
@@ -85,4 +91,6 @@ $paged: WordPress search global variable, that denote whether or not a post is p
 		if (strstr($_SERVER['REQUEST_URI'],'wp-comments-post.php')) $ignore_page = true;
 		//Do not cache WP user signup page
 		if (strstr($_SERVER['REQUEST_URI'],'wp-signup.php')) $ignore_page = true;
+		//var_dump ($cachefile, get_permalink($page_id), $paged);
+	
 		?>

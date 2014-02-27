@@ -1,10 +1,10 @@
 === bodi0`s Easy cache ===
-Contributors: budiony
+Contributors: Budiony Damyanov
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=LKG7EXVNPJ7EN&amp;currency_code=EUR
 Tags: advanced cache, benchmark, benchmarking, cache, caching, cash, debug, debugging, execution, generation, highly extensible, includes extensive documentation, loading, options panel included, performance, easy cache, easycache, speed, super cache, w3c validated code, websharks framework, wp-cache
 Requires at least: 3.2.0
 Tested up to: 3.8.1
-Stable tag: 0.1
+Stable tag: 0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -74,7 +74,7 @@ Maybe. Make sure the call to `wp_footer();` function is at the very bottom in yo
 
 **Will comments or any other dynamic parts of my blog update immediately?**
 
-It depends on your configuration of Easy cache. There is an automatic cache expiration system, which runs through WordPress® behind-the-scene, according to your Cached file expires setting (see: `Settings -› Easy cache -› Cached file expires after` and `Settings -› Easy cache -› Rebuild cached file on page/post/comment update`). The default value of 5 minutes is suitable for most cases. If you don't update your site too often, you could set this to 120 minutes or longer. The longer the cache expiration time is, the greater your performance gain. Alternatively, the shorter the expiration time, the fresher everything will remain on your site, but at cost of slowdowns.
+It depends on your configuration of Easy cache. There is an automatic cache expiration system, which runs through WordPress® behind-the-scene, according to your Cached file expires setting (see: `Settings -› Easy cache -› Cached file expires after` and `Settings -› Easy cache -› Rebuild cached file on page/post/comment update`). The default value of 5 minutes is suitable for most cases. If you don't update your site too often, you could set this to 240 minutes (which is 4 hours) or longer. The longer the cache expiration time is, the greater your performance gain. Alternatively, the shorter the expiration time, the fresher everything will remain on your site, but at cost of slowdowns.
 
 
 **Can I exclude given pages or posts from being cached?**
@@ -92,14 +92,30 @@ First of all, make sure you are **NOT** logged-in. Then navigate to your site li
 **Is there any further optimization of saved cache file for speed improvement?**
 
 Yes, cached file can be minified (cleaned) and then saved to disk, in typical scenario this process will reduce cache file size between 6 and 12%, which also means, that your visitors will open pages 6 to 12% faster (with given equal conditions). 
-Remark: minifying is applied to generated HTML file only, no other JavaScript or CSS minification is done.
+Remark: minifying is applied to generated HTML file and, optionally, to included CSS files, no JavaScript minification / merge is done. Combining of all CSS resources reduces the CSS resource requests made to the web server to only one (minifiying and combining Google web fonts CSS links is also possible, although is pointless), the minification reduces the file size between 5 and 50%, depending on how structured is the CSS file itself.
 
-See `Settings -› Easy cache -› Minify saved cache file` for details.
+See `Settings -› Easy cache -› Minify saved cache file` for details and `Settings -› Easy cache -› Minify and combine CSS files`.
+
+
+**I want to know more about the CSS minification and combination process**
+
+Insert absolute URL (valid URL according RFC 2396) of CSS files in sequence of their appearance in non-cached page for minification and combination. This process will reduce the number and size of HTTP requests to your server. The CSS files will be merged as single cached CSS resource file, named_css.min.css and saved in your current theme's folder. 
+
+This file will be included in every cached file, old links will be removed.
+
+*Important:*
+ Make sure that any URL inside the original CSS code is abosulte, not relative (otherwise you will have missing backrounds). Also make sure you type the URL of files you want to combine and minify exactly as it is in your original page / post (for example some stylesheets links may have dynamic content attached to them, like: http://www.example.com/color.php?ver=1.2), otherwise minification and combination will not work correctly. If you modify the original CSS files, remember to save settings here in order to re-generate cached CSS resource file.
 
 
 **What is the purpose of Statistics section?**
 
 It gives you technical information about the caching mechanism and server load. This is useful if you want to track more precisely what's going on your server and on your website.
+
+
+**Is there any PHP/Web server requirements in order this plugin to work?**
+
+Only one. The minimum requirement is that the version of PHP is 5.3.6 or later with 'allow_url_fopen' setting set to 'On' (this is because of the CSS minification and combination).
+No other special requirement about the structure of your permalinks, .htaccess file, memory limits or free space on your server. Of course the more, the better for the latter two.
 
 
 **Why should I donate to this plugin?**
@@ -111,5 +127,15 @@ None
 
 == Changelog ==
 
+
+= 0.2 =
+
+-Added CSS files minification and combination.
+
+-Performance improvements.
+
+-Updated translations.
+
 = 0.1 =
+
 Initial release.
