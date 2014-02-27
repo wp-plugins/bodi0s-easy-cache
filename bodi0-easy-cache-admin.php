@@ -702,7 +702,7 @@ wp_nonce_field( 'easy-cache-nonce' );
 			//
 			if (file_exists(get_stylesheet_directory()."/".$cssfile)) {
 				echo round( filesize(get_stylesheet_directory()."/".$cssfile )/ 1024,2); 	
-				_e("KiB","bodi0-easy-cache");  _e(" created on ","bodi0-easy-cache"); echo date("Y-m-d H:i:s",filemtime(get_stylesheet_directory()."/".$cssfile));
+				_e("KiB","bodi0-easy-cache");  _e(" created on ","bodi0-easy-cache"); echo gmdate("Y-m-d H:i:s",filemtime(get_stylesheet_directory()."/".$cssfile)) . ' GMT';
 				$css_file_exists = 1;
 			}
 				else _e("Not Available","bodi0-easy-cache");
