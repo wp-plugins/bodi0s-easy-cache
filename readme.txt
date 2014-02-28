@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_butt
 Tags: advanced cache, benchmark, benchmarking, cache, caching, cash, debug, debugging, execution, generation, highly extensible, includes extensive documentation, loading, options panel included, performance, easy cache, easycache, speed, super cache, w3c validated code, websharks framework, wp-cache
 Requires at least: 3.2.0
 Tested up to: 3.8.1
-Stable tag: 0.2
+Stable tag: 0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,12 +92,14 @@ First of all, make sure you are **NOT** logged-in. Then navigate to your site li
 **Is there any further optimization of saved cache file for speed improvement?**
 
 Yes, cached file can be minified (cleaned) and then saved to disk, in typical scenario this process will reduce cache file size between 6 and 12%, which also means, that your visitors will open pages 6 to 12% faster (with given equal conditions). 
-Remark: minifying is applied to generated HTML file and, optionally, to included CSS files, no JavaScript minification / merge is done. Combining of all CSS resources reduces the CSS resource requests made to the web server to only one (minifiying and combining Google web fonts CSS links is also possible, although is pointless), the minification reduces the file size between 5 and 50%, depending on how structured is the CSS file itself.
+Remark: minifying is applied to generated HTML file and, optionally, to included CSS files, no JavaScript minification / merge is done. Combining of all CSS resources reduces the CSS resource requests made to the web server to only one (minifiying and combining Google web fonts CSS links, also other external links is also possible, although is sometimes pointless), the minification reduces the file size between 5 and 50%, depending on how structured is the CSS file itself.
 
 See `Settings -› Easy cache -› Minify saved cache file` for details and `Settings -› Easy cache -› Minify and combine CSS files`.
 
 
-**I want to know more about the CSS minification and combination process**
+**Why I need to minify my CSS files and how the CSS minification and combination process works?**
+
+Pages that refer to multiple CSS or JavaScript files often suffer from slower page loads, due to the browser requesting each file individually. Many browsers also are limited to a few simultaneous requests per domain. The wait for a series of requests and the transfer of unoptimized files can dramatically reduce the client-side performance of your site.
 
 Insert absolute URL (valid URL according RFC 2396) of CSS files in sequence of their appearance in non-cached page for minification and combination. This process will reduce the number and size of HTTP requests to your server. The CSS files will be merged as single cached CSS resource file, named_css.min.css and saved in your current theme's folder. 
 
@@ -123,10 +125,18 @@ No other special requirement about the structure of your permalinks, .htaccess f
 Well, the main purpose of caching mechanism is to save your visitors time and bandwidth, which transfers of saving your money. By reducing the load times you actually economize your resources and provide your visitors better experience, so I won't mind if you buy me a beer if you are happy about that. Check the 'Donate' button for more info.
 
 == Screenshots ==
-None
+screenshot-1.gif
+screenshot-2.gif
+screenshot-3.gif
 
 == Changelog ==
 
+
+= 0.3 =
+
+-Minification and combination of CSS files is improved.
+
+-Compatibility fixes and translation updates.
 
 = 0.2 =
 

@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin`s Administration panel
 Author: Budiony Damyanov
 Email: budiony@gmail.com
-Version: 0.2
+Version: 0.3
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)
@@ -60,7 +60,7 @@ $cache_folder = rtrim(preg_replace("~\/\/+~","/",$cache_folder),'\\/'). DIRECTOR
 
 
 //Sanitize exclude search queries select
-$exclude_search_queries = (!in_array($_POST['easy-cache-exclude-search'], array("Yes","No"))) ? 'Yes' : $_POST['easy-cache-exclude-search'];
+$exclude_search_queries = (!in_array($_POST['easy-cache-exclude-search'], array("Yes","No"))) ? 'No' : $_POST['easy-cache-exclude-search'];
 //Sanitize enable caching
 $enable_caching = (!in_array($_POST['easy-cache-enable-cache'], array("Yes","No"))) ? 'Yes' : $_POST['easy-cache-enable-cache'];
 $minify_cache = (!in_array($_POST['easy-cache-minify-cache-file'], array("Yes","No"))) ? 'Yes' : $_POST['easy-cache-minify-cache-file'];
@@ -660,16 +660,19 @@ wp_nonce_field( 'easy-cache-nonce' );
     <tbody>
     <tr class="alternate">
       <th valign="top"> <?php _e("Average Web Server load","bodi0-easy-cache"); ?>:
-      <div class="small"><?php _e("These values represents the average system load in the last 1, 5 and 15 minutes, also memory usage (current and peak).","bodi0-easy-cache");?><br />
+      <div class="small"><?php _e("These values represents the current system software, average system load in the last 1, 5 and 15 minutes, also memory usage (current and peak).","bodi0-easy-cache");?><br />
 <?php _e("Values above 80 means that your web server is overloaded.","bodi0-easy-cache"); ?></div>
       </th>
       <td>
 			<strong><?php 
+				echo 'PHP: '.phpversion(). '<br/>
+				Apache: ';
+				echo $_SERVER['SERVER_SOFTWARE'] .'<br/>';
+				
 				$load_data = array();
 				$load_data = easy_cache_get_server_load2(); 
 			 	if (!empty($load_data)) {
 					echo $load_data;
-					
 				}
 				else  _e("N/A","bodi0-easy-cache"); 
 			?></strong>

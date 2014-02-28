@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin`s caching buffer flush (write cache file)
 Author: Budiony Damyanov
 Email: budiony@gmail.com
-Version: 0.2
+Version: 0.3
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)
@@ -81,7 +81,7 @@ require('lib/func.php');
 				}
 					
 			}
-			//Finishing
+			//Finishing PHP 5.3.6 and later
 			$webpage_modified = $html_doc->saveHTML();
 			//Free up some memory
 			unset($html_doc);
@@ -92,12 +92,12 @@ require('lib/func.php');
 			$webpage_modified = $webpage;
 		}	
 
-		// Now the script has run, generate a new cache file
+		// Now the script has run, generate a new cache file with EXCLUSIVE LOCK
     file_put_contents($cachefile, $webpage_modified. '<!-- Easy cached on: '
 			.gmdate('D, Y-m-d H:i:s'). ' GMT'.', file: '
 			.basename($cachefile).', size: '
 			.strlen($webpage_modified).' bytes, URL: '
-			.$page .'	-->'); 
+			.$page .'	-->', LOCK_EX); 
         	
 		}
 		// Flush buffer

@@ -2,9 +2,9 @@
 defined( 'ABSPATH' ) or exit();
 /*
 Plugin Name: bodi0`s Easy cache
-Plugin URI: 
+Plugin URI: http://wordpress.org/plugins/bodi0s-easy-cache/
 Description: Cashes the pages/posts in your blog for improved performance.
-Version: 0.2
+Version: 0.3
 Text Domain: bodi0-easy-cache
 Domain Path: /languages
 Author: Budiony Damyanov
@@ -48,10 +48,6 @@ $plugin_options = array(
 
 
 );
-
-/*Exclude search queries option cached value*/
-$exclude_search_queries = get_option('easy_cache_option_exclude_search_queries');
-
 
 /*Actions*/
 add_action('init', 'easy_cache_plugin_internationalization');
@@ -210,9 +206,12 @@ $result = false;
 $page = '';
 if (empty($post_id)) $page = sha1(get_permalink());
 else $page = sha1(get_permalink($post_id));
-//File checks
-	if ( file_exists( get_option('easy_cache_option_cache_folder') . DIRECTORY_SEPARATOR . $page  .'.cache') ) 		 
-			$result =	unlink( get_option('easy_cache_option_cache_folder') . DIRECTORY_SEPARATOR . $page . '.cache' );
+
+//Cached file
+$cached_file = get_option('easy_cache_option_cache_folder') . DIRECTORY_SEPARATOR . $page  .'.cache';
+
+//Delete it if File exists
+	if (file_exists($cached_file)) $result =	unlink($cached_file);
 		//
 	}
 }
@@ -226,7 +225,7 @@ if (!function_exists('easy_cache_update_delete_comment')) {
 			//Get the associated page/post ID
 			$post_id = $comment->comment_post_ID;
 			//Pass the page/post ID to the function
-			easy_cache_delete_cached_file($post_id);
+			if (get_option('easy_cache_option_auto_rebuild_cache_file') =='Yes') easy_cache_delete_cached_file($post_id);
 	}
 }
 

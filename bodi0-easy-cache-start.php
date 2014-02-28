@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin`s reading cache file
 Author: Budiony Damyanov
 Email: budiony@gmail.com
-Version: 0.2
+Version: 0.3
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)
@@ -32,7 +32,7 @@ require('bodi0-easy-cache-settings.php');
     if (time() - $cachetime < $cachefile_created) {
 
         //ob_start('ob_gzhandler');
-        readfile($cachefile);
+        echo file_get_contents($cachefile);
         //ob_end_flush();
         exit();
 

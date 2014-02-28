@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin`s caching variables settings
 Author: Budiony Damyanov
 Email: budiony@gmail.com
-Version: 0.2
+Version: 0.3
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)
@@ -91,6 +91,5 @@ $ignore_page: Marker, flag if the page should be excluded or not from caching;
 		if (strstr($_SERVER['REQUEST_URI'],'wp-comments-post.php')) $ignore_page = true;
 		//Do not cache WP user signup page
 		if (strstr($_SERVER['REQUEST_URI'],'wp-signup.php')) $ignore_page = true;
-		//var_dump ($cachefile, get_permalink($page_id), $paged);
 	
 		?>

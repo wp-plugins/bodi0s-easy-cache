@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bodi0 easy cache\n"
-"POT-Creation-Date: 2014-02-27 17:52+0200\n"
-"PO-Revision-Date: 2014-02-27 17:52+0200\n"
+"POT-Creation-Date: 2014-02-28 12:50+0200\n"
+"PO-Revision-Date: 2014-02-28 12:50+0200\n"
 "Last-Translator: Budyoni Damyanov <budiony@gmail.com>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -368,9 +368,9 @@ msgstr "Restaurer les paramètres par défaut"
 msgid "bytes"
 msgstr "bytes"
 
-#: ../bodi0-easy-cache-admin.php:591 ../bodi0-easy-cache-admin.php:705
-#: ../bodi0-easy-cache-admin.php:729 ../bodi0-easy-cache-admin.php:730
-#: ../bodi0-easy-cache-admin.php:731
+#: ../bodi0-easy-cache-admin.php:591 ../bodi0-easy-cache-admin.php:708
+#: ../bodi0-easy-cache-admin.php:732 ../bodi0-easy-cache-admin.php:733
+#: ../bodi0-easy-cache-admin.php:734
 msgid "KiB"
 msgstr "KiB"
 
@@ -421,86 +421,86 @@ msgstr "Charge moyenne du Serveur Web"
 
 #: ../bodi0-easy-cache-admin.php:663
 msgid ""
-"These values represents the average system load in the last 1, 5 and 15 "
-"minutes, also memory usage (current and peak)."
+"These values represents the current system software, average system load in "
+"the last 1, 5 and 15 minutes, also memory usage (current and peak)."
 msgstr ""
-"Ces valeurs représentent la charge moyenne du système dans les dernières 1, "
-"5 et 15 minutes, ainsi qu'avec l'utilisation de la mémoire (et de courant de "
-"crête)."
+"Ces valeurs représentent le logiciel actuelle du système, la charge moyenne "
+"du système dans les dernières 1, 5 et 15 minutes, ainsi qu'avec "
+"l'utilisation de la mémoire (et de courant de crête)."
 
 #: ../bodi0-easy-cache-admin.php:664
 msgid "Values above 80 means that your web server is overloaded."
 msgstr "Les valeurs supérieures à 80 signifie que votre serveur est surchargé."
 
-#: ../bodi0-easy-cache-admin.php:674
+#: ../bodi0-easy-cache-admin.php:677
 msgid "N/A"
 msgstr "N/A"
 
-#: ../bodi0-easy-cache-admin.php:685
+#: ../bodi0-easy-cache-admin.php:688
 msgid "Number of cache files found"
 msgstr "Nombre de fichiers de cache trouvée"
 
-#: ../bodi0-easy-cache-admin.php:686
+#: ../bodi0-easy-cache-admin.php:689
 msgid "Files are inside cached folder"
 msgstr "Fichiers sont à l'intérieur dossier de cache"
 
-#: ../bodi0-easy-cache-admin.php:692
+#: ../bodi0-easy-cache-admin.php:695
 msgid "Minified and combined CSS file"
 msgstr "Fichier CSS minifié et combiné"
 
-#: ../bodi0-easy-cache-admin.php:693
+#: ../bodi0-easy-cache-admin.php:696
 msgid "Details about size of minified and combined CSS file, in folder: "
 msgstr "Détails sur la taille du fichier minifié et combiné, dans le dossier:"
 
-#: ../bodi0-easy-cache-admin.php:705
+#: ../bodi0-easy-cache-admin.php:708
 msgid " created on "
 msgstr " créé sur "
 
-#: ../bodi0-easy-cache-admin.php:708
+#: ../bodi0-easy-cache-admin.php:711
 msgid "Not Available"
 msgstr "Indisponible"
 
-#: ../bodi0-easy-cache-admin.php:713
+#: ../bodi0-easy-cache-admin.php:716
 msgid "Cache files age (min/max/avg)"
 msgstr "L'âge du fichier de cache (min/max/moyenne)"
 
-#: ../bodi0-easy-cache-admin.php:714
+#: ../bodi0-easy-cache-admin.php:717
 msgid "Displays freshness of the cached files."
 msgstr "Écrans fraîcheur des fichiers en mémoire cache."
 
-#: ../bodi0-easy-cache-admin.php:725
+#: ../bodi0-easy-cache-admin.php:728
 msgid "Cache files size (min/max/avg)"
 msgstr "Taille du fichier cache (min/max/moyenne)"
 
-#: ../bodi0-easy-cache-admin.php:726
+#: ../bodi0-easy-cache-admin.php:729
 msgid "Displays smallest, largest and averaged size of saved cached files."
 msgstr ""
 "Écrans la plus petite, plus grande et la moyenne taille des enregistrés "
 "fichiers de cache."
 
-#: ../bodi0-easy-cache-admin.php:735
+#: ../bodi0-easy-cache-admin.php:738
 msgid "Total space occupied by cache files"
 msgstr "Espace total occupé par les fichiers de cache"
 
-#: ../bodi0-easy-cache-admin.php:748
+#: ../bodi0-easy-cache-admin.php:751
 msgid "Delete all cached files"
 msgstr "Supprimez tous les fichiers mis en cache"
 
-#: ../bodi0-easy-cache-admin.php:751
+#: ../bodi0-easy-cache-admin.php:754
 msgid "Delete combined and minified CSS file"
 msgstr "Supprimer le fichier combiné et minifié CSS"
 
-#: ../bodi0-easy-cache-admin.php:762
+#: ../bodi0-easy-cache-admin.php:765
 msgid "If you find this plugin useful, I wont mind if you buy me a beer"
 msgstr ""
 "Si vous trouvez ce plugin utile, je ne me dérange pas si vous me achetez une "
 "bière"
 
-#: ../bodi0-easy-cache.php:146
+#: ../bodi0-easy-cache.php:142
 msgid "Easy cache"
 msgstr "Easy cache"
 
-#: ../bodi0-easy-cache.php:158
+#: ../bodi0-easy-cache.php:154
 msgid "Administration"
 msgstr "Administration"
 
