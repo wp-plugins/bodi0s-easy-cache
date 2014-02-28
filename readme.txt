@@ -125,9 +125,9 @@ No other special requirement about the structure of your permalinks, .htaccess f
 Well, the main purpose of caching mechanism is to save your visitors time and bandwidth, which transfers of saving your money. By reducing the load times you actually economize your resources and provide your visitors better experience, so I won't mind if you buy me a beer if you are happy about that. Check the 'Donate' button for more info.
 
 == Screenshots ==
-screenshot-1.gif
-screenshot-2.gif
-screenshot-3.gif
+1. screenshot-1.gif
+2. screenshot-2.gif
+3. screenshot-3.gif
 
 == Changelog ==
 
