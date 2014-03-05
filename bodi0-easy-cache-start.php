@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin`s reading cache file
 Author: Budiony Damyanov
 Email: budiony@gmail.com
-Version: 0.3
+Version: 0.4
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)

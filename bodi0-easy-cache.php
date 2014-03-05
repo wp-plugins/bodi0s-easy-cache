@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin Name: bodi0`s Easy cache
 Plugin URI: http://wordpress.org/plugins/bodi0s-easy-cache/
 Description: Cashes the pages/posts in your blog for improved performance.
-Version: 0.3
+Version: 0.4
 Text Domain: bodi0-easy-cache
 Domain Path: /languages
 Author: Budiony Damyanov
@@ -44,7 +44,8 @@ $plugin_options = array(
 'easy_cache_option_enable_caching'=>'No',
 'easy_cache_option_minify_cache_file'=>'Yes', 
 'easy_cache_option_auto_rebuild_cache_file'=>'Yes',
-'easy_cache_option_minified_css_files'=>''
+'easy_cache_option_minified_css_files'=>'',
+'easy_cache_option_skip_jetpack_mobile_caching'=>'Yes'
 
 
 );
@@ -60,13 +61,13 @@ add_action('wp_print_footer_scripts','easy_cache_end', PHP_INT_MAX); //Inserted 
 /*Settings link*/
 add_filter('plugin_action_links_'.$plugin, 'easy_cache_plugin_add_settings_link');
 /*Actions when post/page is updated or deleted*/
-add_action('edit_post', 'easy_cache_post_page_edited', 100);
-add_action('delete_post', 'easy_cache_post_page_deleted', 100);
+add_action('edit_post', 'easy_cache_post_page_edited', PHP_INT_MAX);
+add_action('delete_post', 'easy_cache_post_page_deleted', PHP_INT_MAX);
 /*Actions when comment is inserted, deleted or status is changed*/
-add_action('edit_comment', 'easy_cache_post_page_edited', 100);
-add_action('comment_post', 'easy_cache_post_page_edited', 100);
-add_action('delete_comment', 'easy_cache_update_delete_comment',100);
-add_action('wp_set_comment_status', 'easy_cache_update_delete_comment', 100);
+add_action('edit_comment', 'easy_cache_post_page_edited', PHP_INT_MAX);
+add_action('comment_post', 'easy_cache_post_page_edited', PHP_INT_MAX);
+add_action('delete_comment', 'easy_cache_update_delete_comment',PHP_INT_MAX);
+add_action('wp_set_comment_status', 'easy_cache_update_delete_comment', PHP_INT_MAX);
 
 /*Action executed when plugin is uninstalled*/
 register_uninstall_hook(__FILE__, 'easy_cache_uninstall' );

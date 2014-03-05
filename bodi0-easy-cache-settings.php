@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin`s caching variables settings
 Author: Budiony Damyanov
 Email: budiony@gmail.com
-Version: 0.3
+Version: 0.4
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)
@@ -84,12 +84,26 @@ $ignore_page: Marker, flag if the page should be excluded or not from caching;
 			}
 		}
 		if (is_search() && get_option("easy_cache_option_exclude_search_queries")=='Yes') $ignore_page = true;
-
+		
+		//Check to see if we use mobile theme of Jetpack
+		if ( !function_exists("easy_cache_is_jetpack_mobile") ) {
+			function easy_cache_is_jetpack_mobile() {
+				//Are Jetpack Mobile functions available?
+				if (!function_exists('jetpack_is_mobile')) return false;
+				// Is Mobile theme showing?
+				if (isset($_COOKIE['akm_mobile']) and $_COOKIE['akm_mobile']=='false') return false;
+				return jetpack_is_mobile();
+			}
+		}
 		//Do not cache page if it is WP user login page
 		if (strstr($_SERVER['REQUEST_URI'],'wp-login.php')) $ignore_page = true;		
 		//Do not cache page if it is Duplicate comment WP error
 		if (strstr($_SERVER['REQUEST_URI'],'wp-comments-post.php')) $ignore_page = true;
 		//Do not cache WP user signup page
 		if (strstr($_SERVER['REQUEST_URI'],'wp-signup.php')) $ignore_page = true;
+		// Do not cache Jetpack mobile pages (according to the settings option)
+		if (get_option('easy_cache_option_skip_jetpack_mobile_caching')=='Yes' && easy_cache_is_jetpack_mobile()) $ignore_page = true;
+	
+	
 	
 		?>

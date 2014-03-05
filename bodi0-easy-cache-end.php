@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin`s caching buffer flush (write cache file)
 Author: Budiony Damyanov
 Email: budiony@gmail.com
-Version: 0.3
+Version: 0.4
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)
@@ -29,7 +29,7 @@ require('lib/func.php');
 	
 		$webpage = ob_get_contents();
 
-		// Write file as cache if it is not excluded only
+	// Write file as cache if it is not excluded only
     if ($ignore_page === false) {
 		
 		//Check to see if cache file should be minified
@@ -84,7 +84,7 @@ require('lib/func.php');
 			//Finishing PHP 5.3.6 and later
 			$webpage_modified = $html_doc->saveHTML();
 			//Free up some memory
-			unset($html_doc);
+			unset($html_doc, $xpath);
 			
 		}
 		//No minification and combination of CSS
@@ -92,14 +92,14 @@ require('lib/func.php');
 			$webpage_modified = $webpage;
 		}	
 
-		// Now the script has run, generate a new cache file with EXCLUSIVE LOCK
+	// Now the script has run, generate a new cache file with EXCLUSIVE LOCK
     file_put_contents($cachefile, $webpage_modified. '<!-- Easy cached on: '
 			.gmdate('D, Y-m-d H:i:s'). ' GMT'.', file: '
 			.basename($cachefile).', size: '
 			.strlen($webpage_modified).' bytes, URL: '
 			.$page .'	-->', LOCK_EX); 
         	
-		}
-		// Flush buffer
+	}
+	// Flush buffer
     ob_end_flush(); 
 ?>

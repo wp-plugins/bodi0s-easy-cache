@@ -127,21 +127,23 @@ if (!function_exists("easy_cache_optimize_css_files")) {
 	function easy_cache_optimize_css_files($buffer = "") {
  
 	// Remove comments
-	//$buffer = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $buffer);
+	$buffer = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $buffer);
 	$colors = array('#000000','#111111','#222222','#333333','#444444','#555555','#666666','#777777','#888888','#999999',
 	'#aaaaaa','#bbbbbb','#cccccc','#dddddd','#eeeeee','#ffffff');
 	// Remove whitespace
-	$buffer = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), ' ', $buffer);
+	$buffer = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    ','  '), ' ', $buffer);
 	 
 	// Remove space after colons
-	$buffer = str_replace(array(': ',' :',' : '), ':', $buffer);
-	$buffer = str_replace(array('{ ',' {',' { '), '{', $buffer);
+	$buffer = str_replace(array(': ',' :',' : ',': '), ':', $buffer);
+	$buffer = str_replace(array('{ ',' {',' { ','{  ','{ '), '{', $buffer);
 	$buffer = str_replace(array('} ',' }',' } '), '}', $buffer);
 	$buffer = str_replace(array('; ',' ;',' ; '), ';', $buffer);
 	$buffer = str_replace(array(', ',' ,',' , '), ',', $buffer);
+	$buffer = str_replace(array('> ',' >',' > '), '>', $buffer);
 	//Optimize CSS units
-	$buffer = str_replace(array(' 0%',' 0in',' 0cm',' 0mm',' 0em',' 0ex',' 0pt',' 0pc',' 0px'	), '0', $buffer);
-	$buffer = str_replace(array(':0%',':0in',':0cm',':0mm',':0em',':0ex',':0pt',':0pc',':0px'	), ':0', $buffer);
+	$buffer = str_replace(array(' 0%',' 0in',' 0cm',' 0mm',' 0em',' 0ex',' 0pt',' 0pc',' 0px'), '0', $buffer);
+	$buffer = str_replace(array(',0%',',0in',',0cm',',0mm',',0em',',0ex',',0pt',',0pc',',0px'), ',0', $buffer);
+	$buffer = str_replace(array(':0%',':0in',':0cm',':0mm',':0em',':0ex',':0pt',':0pc',':0px'), ':0', $buffer);
 	//Optimize CSS colors
 	foreach ($colors as $color) {
 		$buffer = str_ireplace($color, substr($color,0,4), $buffer);

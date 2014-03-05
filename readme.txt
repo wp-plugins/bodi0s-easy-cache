@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_butt
 Tags: advanced cache, benchmark, benchmarking, cache, caching, cash, debug, debugging, execution, generation, highly extensible, includes extensive documentation, loading, options panel included, performance, easy cache, easycache, speed, super cache, w3c validated code, websharks framework, wp-cache
 Requires at least: 3.2.0
 Tested up to: 3.8.1
-Stable tag: 0.3
+Stable tag: 0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,7 @@ Easy cache excludes administrative or WP system login pages from caching (i.e. i
 
 There is an automatic cache expiration system, which runs through WordPress® behind-the-scene, according to your `Cached file expires after` setting, also various cache and server load statistics are available for precise tracking of what is going on.
 
-The Easy cache plugin has been tested with various permalink settings, various pagination plugins like `WP Pagenavi` and `WPML WordPress Multilingual Plugin`, other multi-language and custom pagination plugins however should also work, if you experience troubles, post your issue on the plugin's forum.
+The Easy cache plugin has been tested with various permalink settings, various pagination plugins like `WP Pagenavi` and `WPML WordPress Multilingual Plugin`, also with `WordPress® Jetpack` mobile theme, with variuos custom post types, custom queries, custom pages outside WordPress® installation directory and a number of widely used plugins, however if you experience troubles, post your issue on the plugin's forum.
 
 **Supported languages**
 
@@ -106,7 +106,7 @@ Insert absolute URL (valid URL according RFC 2396) of CSS files in sequence of t
 This file will be included in every cached file, old links will be removed.
 
 *Important:*
- Make sure that any URL inside the original CSS code is abosulte, not relative (otherwise you will have missing backrounds). Also make sure you type the URL of files you want to combine and minify exactly as it is in your original page / post (for example some stylesheets links may have dynamic content attached to them, like: http://www.example.com/color.php?ver=1.2), otherwise minification and combination will not work correctly. If you modify the original CSS files, remember to save settings here in order to re-generate cached CSS resource file.
+Make sure that any URL inside the original CSS code is abosulte, not relative (otherwise you will have missing backrounds). Also make sure you type the URL of files you want to combine and minify exactly as it is in your original page / post (for example some stylesheets links may have dynamic content attached to them, like: http://www.example.com/color.php?ver=1.2), otherwise minification and combination will not work correctly. If you modify the original CSS files, remember to save settings here in order to re-generate cached CSS resource file.
 
 
 **What is the purpose of Statistics section?**
@@ -120,17 +120,27 @@ Only one. The minimum requirement is that the version of PHP is 5.3.6 or later w
 No other special requirement about the structure of your permalinks, .htaccess file, memory limits or free space on your server. Of course the more, the better for the latter two.
 
 
+**I have a mobile theme from WordPress® Jetpack module, should I do something in order caching to work?**
+
+The plugin detects if you have installed the Jetpack from WordPress® mobile theme and it detects if your website is visited by a mobile device. However it is highly recommended to skip caching for mobile pages/posts, otherwise your website visitors may see a mix of the mobile pages/posts and desktop pages/posts. Skipping the caching mechanism for mobile version of your website is necessary, because the Jetpack module by WordPress.com provides his own caching procedure.
+
+
 **Why should I donate to this plugin?**
 
 Well, the main purpose of caching mechanism is to save your visitors time and bandwidth, which transfers of saving your money. By reducing the load times you actually economize your resources and provide your visitors better experience, so I won't mind if you buy me a beer if you are happy about that. Check the 'Donate' button for more info.
 
 == Screenshots ==
-screenshot-1.gif
-screenshot-2.gif
-screenshot-3.gif
+1. screenshot-1.gif
+2. screenshot-2.gif
+3. screenshot-3.gif
 
 == Changelog ==
 
+= 0.4 =
+
+-Added support of Jetpack mobile theme module by WordPress.com
+
+-Better memory management
 
 = 0.3 =
 

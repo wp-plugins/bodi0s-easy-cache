@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin`s Administration panel
 Author: Budiony Damyanov
 Email: budiony@gmail.com
-Version: 0.3
+Version: 0.4
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)
@@ -65,6 +65,9 @@ $exclude_search_queries = (!in_array($_POST['easy-cache-exclude-search'], array(
 $enable_caching = (!in_array($_POST['easy-cache-enable-cache'], array("Yes","No"))) ? 'Yes' : $_POST['easy-cache-enable-cache'];
 $minify_cache = (!in_array($_POST['easy-cache-minify-cache-file'], array("Yes","No"))) ? 'Yes' : $_POST['easy-cache-minify-cache-file'];
 $auto_rebuild_cache = (!in_array($_POST['easy-cache-auto-rebuild-cache-file'], array("Yes","No"))) ? 'Yes' : $_POST['easy-cache-auto-rebuild-cache-file'];
+$skip_jetpack_caching = (!isset($_POST['easy-cache-skip-jetpack-mobile-cache']) ? 'Yes' :  
+!in_array($_POST['easy-cache-skip-jetpack-mobile-cache'], array("Yes","No"))) ? 'Yes': $_POST['easy-cache-skip-jetpack-mobile-cache'];
+
 
 //Array of excluded pages/posts
 $exclude_pages = (!empty($_POST['pages'])) ? maybe_serialize($_POST['pages']): array();
@@ -88,7 +91,7 @@ foreach ($minified_css_files as $minified_css_file) {
 	update_option('easy_cache_option_minify_cache_file',$minify_cache);
 	update_option('easy_cache_option_auto_rebuild_cache_file',$auto_rebuild_cache);
 	update_option("easy_cache_option_minified_css_files", $hex_minified_css_files);
-
+	update_option("easy_cache_option_skip_jetpack_mobile_caching", $skip_jetpack_caching);
 //Response handling
 ?>
 
@@ -206,7 +209,9 @@ if(isset($_GET['restore']) && $_GET['restore']=='defaults' && ( wp_verify_nonce(
 	update_option("easy_cache_option_minify_cache_file","Yes");
 	update_option("easy_cache_option_auto_rebuild_cache_file","Yes");
 	update_option("easy_cache_option_minified_css_files","");
-//Response handling
+	update_option("easy_cache_option_skip_jetpack_mobile_caching","Yes");
+
+	//Response handling
 ?>
 <div id="message" class="updated">
   <p>
@@ -229,10 +234,13 @@ a {
 .delete:hover, .cancel:hover, .trash:hover, .delete, .trash, .cancel {color:#c00 !important;}
 ul.children li {margin-left:1em;}
 textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
+.logo {background-image: url(data:image/gif;base64,R0lGODlhKAAoAPf/AEiYxuPz+7bW6KPL4oC42D2Sw3ay1USWxSSEuzK6/tTn8jaOwRZ8t1ujzLnX6Qms/p7J4RyAuYS62ev4/3+31yyJvuXw9wJxsXCv0wBvr77p/2Wpz02byCKDu0KVxDqRwl3I/iqIvRt/uAt2swl1s/3+/vD3+gVzsu/2+vH3+w54tARysRV8t2GmzgCt/xJ6thB5tejy+Pj7/fv9/vb6/KjO5Ofy+NHl8ZjF32iq0B+BurvZ6qTM4+Lv9iaFvEuaxwd0srzZ6r7b66nP5FKeySeGvMXe7erz+Mjg7iCCuhN7tuPv9unz+JrG4C+Kv8nh7hl+uPT5/Nnq88/k8LPU5xR7tuz0+Q94tff7/dvr9PP4+12kzTKMv5LC3VSfytzr9Iy/2w13tI2/3BF6tTSNwFagyzCLv9Dl8FGdyfX5/On0+uv0+azQ5brY6nq01u71+mus0cTe7WCmzl6lzfr8/aXN4zWOwJHB3ZPC3mKnzh6BuZnG36bN4yK0/lOfymOozzONwM3j8Hm01d/t9arP5cvt/67S5nTQ/iOEu8Hc7KvQ5X3R/G+u0s7j70CSwuP2/0eYxiW1/gKu/xJ2sQBurYa72oq9297s9fn9/zePwcfg7rDa8Fify/n8/RF4sl6r1Zze/yu7/zGOwoPW/4jX/43a/6XT7Y7A3GTL/tny/+bx9/b8//H3+q7k/3Kw0zORxXex0svi773a69rq9Bh9t+n3/sjf7SiGvHnS/n/U/3ez1R+3/yyJvZnN6uz5//f6/FfG/g53s5bE3ji8/qPK4ajW78Hf8IO52bnY6QZzsuHu9gBsqzSKvL/h8yCBubLm//z9/uDx+UCUxFrK/0GWxkOWxVPF/j/B/2yqz6HK4g+y/9/x+xKv/gas/63R5t3s9AOq/v3+/2qr0QBtrPX6/ABtr0jB/pDa/5PZ/PP7/7HT58zn9e/6//L5/V/J/hd6tJvQ7J7R7QGp/gCq//X7/om92ou+29np8tbo8mmr0VHH/93x+3221wCp/gBwsP///yH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4zLWMwMTEgNjYuMTQ1NjYxLCAyMDEyLzAyLzA2LTE0OjU2OjI3ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDowRDk3MEI3MUE0NDkxMUUzODk4RERCREU4OEI2REQ1MCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDowRDk3MEI3MkE0NDkxMUUzODk4RERCREU4OEI2REQ1MCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjBEOTcwQjZGQTQ0OTExRTM4OThEREJERTg4QjZERDUwIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjBEOTcwQjcwQTQ0OTExRTM4OThEREJERTg4QjZERDUwIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+Af/+/fz7+vn49/b19PPy8fDv7u3s6+rp6Ofm5eTj4uHg397d3Nva2djX1tXU09LR0M/OzczLysnIx8bFxMPCwcC/vr28u7q5uLe2tbSzsrGwr66trKuqqainpqWko6KhoJ+enZybmpmYl5aVlJOSkZCPjo2Mi4qJiIeGhYSDgoGAf359fHt6eXh3dnV0c3JxcG9ubWxramloZ2ZlZGNiYWBfXl1cW1pZWFdWVVRTUlFQT05NTEtKSUhHRkVEQ0JBQD8+PTw7Ojk4NzY1NDMyMTAvLi0sKyopKCcmJSQjIiEgHx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQAAIfkEAQAA/wAsAAAAACgAKAAACP8A/wkcSJBgDEXiPkA54e9KBS94zhScSJEitDZ/OvjbyLGjigM4mFQcSdBQAY5k4AijYgTJjgEEAFTZSIvCEZIUv5XZ2IHCmRIjbdSBtNEHG5wEqUTwx8AeioJYTKCIApTgDmkbXWFB2gSIPw5fBqZBputAERYvdGTaAqHHwBlivKIxQbLJRjdVTYgJ0bGvvxctpgwUsvSHlooCvNYbKICv38cjBL0ROCWJvxYUL0Hx52YggQt+T6iAMcJvBmwDbXnyh2ein68zBDLqq0ROjRsxrGTZwc/JRkqvAtDbJtDUMhX4CKrzx2KQQAIdT2BwTpEGD2eiav3TF8qXwE+UiAz/pJPJHxiBAlZwjCAAqQU1q4D16wdCYLRJF+IIDOIvSYp/KdzCkQiBIDXQOfPN14pAsPjTgEB/+EOAQKdwdIIDBg40wTAJJoDJP/eQEMYSTOhwggL/pFEERxhkSFAhDyT4jEAA+JMNG/4AAlQbHCnhlosDgZDgNAJ14U8e+fgDh0AGcDQHkARpIM98u7TzzxP+mPGBPzgI5AFHQwDZiDECpdPHfJKs808MY7CwGRX/yLCiPyfc4OIejqgxkDnzubDJP534sIJ6RvxjAgsbqWCDgSls4A+GA7nTZzwCccEREv+g8MJGMFiBVBy+5VAQKn3CIxAZDfmzwz9R6LARCVmM/zRLIJaQ4I8eaxRkTZ/F/FNCBf4Ay4OvC3AkC0UmcNJXmASFk0CfzWQqggpESCjQHBxNOJEu5bQggR7++DFRKjH2o00A/0ixAiJGAiAQBBxVIENBNHTggUBD+DNsQaQkeI1AhHx1QxhV3NQDDBzxUVAUwdz7Tw3+1FAQO2fOV4pAOfhTyT8H+KPwP3JwhMBNBGXcwjEsMLBEQYckyM0j/7CyVCz/4ODPAQLdYOtGP/w3EAoNkEACL0EUBAo4CeIiEDH+2BEbEwxcIIRAgnDkRK4FxdDDLxONkmAk3nXCjD9NDESBPwXERsNJgCwKZC7zdKOBQL2M44PP/1ih0XnpbqNhAZQCLYKOQPu8408dBXnjDwlTA04ROdRkIN5EGPgTgWCOE0THFhn4oApFWKDRH6aZ/0MDtlVoMpIJP/y1L+BZVOOPEkWTpEUeG7UQlosy4ECLPz4UauAdCI+hC4o4vTFAef6UsbKLCnixUTIA3PGEDfP6ioIUNeTgqj8hDJB5Ig1cwdELPnBhRwUigLZRJnvgnbkyA/xhBgPqJYoAB5U8YWBAADs=); margin-right:5px;}
 </style>
 <div class="wrap">
   <h2>
-    <?php _e("Easy cache [Administration]","bodi0-easy-cache"); ?>
+  <div style="display:inline-block;width:40px;height:40px;vertical-align:middle" class="logo"></div>
+    
+	<?php _e("Easy cache [Administration]","bodi0-easy-cache"); ?>
   </h2>
   <p>
 <strong><?php _e("Speed up your website by setting the parameters for the caching mechanism.", "bodi0-easy-cache") ?></strong>
@@ -245,8 +253,10 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
 <br />
 
     <strong><?php _e("Important","bodi0-easy-cache"); ?>:</strong> <?php _e("Make sure the call to <code>wp_footer();</code> function is at the very bottom in your theme`s <code>footer.php</code> file, right before closing <code>< /body></code> tag. Otherwise contents after <code>wp_footer();</code> may be not included in generated cache file.","bodi0-easy-cache"); ?><br />
-<strong><?php _e("Important","bodi0-easy-cache"); ?>:</strong> <?php _e("Remember to logout or use different browser if you want to test if caching mechanism is working, only not logged-in users can benefit from caching.","bodi0-easy-cache"); ?>
+<strong><?php _e("Important","bodi0-easy-cache"); ?>:</strong> <?php _e("Remember to log out or use different browser if you want to test if caching mechanism is working, only not logged-in users can benefit from caching.","bodi0-easy-cache"); ?>
   </p>
+  
+  
   <?php if (get_option('easy_cache_option_enable_caching') !='Yes') { ?>
 <div id="message" class="updated error">
   <p>
@@ -260,10 +270,10 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
       </thead>
       <tbody>
       <tr class="alternate">
-        <th valign="top"><?php _e("Enable caching","bodi0-easy-cache"); ?>:
+        <th style="vertical-align:top"><?php _e("Enable caching","bodi0-easy-cache"); ?>:
         <div class="small"><?php _e("Select to enable or disable caching mechanism globally in your website.","bodi0-easy-cache"); ?></div>
         </th>
-        <td valign="top"><select name="easy-cache-enable-cache" id="easy-cache-enable-cache">
+        <td style="vertical-align:top"><select name="easy-cache-enable-cache" id="easy-cache-enable-cache">
             <?php 
 						$easy_cache_option_enable_caching_yes = '';
 						$easy_cache_option_enable_caching_no = '';
@@ -280,32 +290,32 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
           </select></td>
       </tr>
       <tr>
-        <th valign="top"><?php _e("Cache folder path", "bodi0-easy-cache"); ?>:
+        <th style="vertical-align:top"><?php _e("Cache folder path", "bodi0-easy-cache"); ?>:
           <div class="small">
           <?php _e("Make sure that folder path exists and is writable, i.e. the permissions are 755 or higher.","bodi0-easy-cache");?>
 					<br/>
 					<?php _e("The default value is sub-folder, named < cached > inside the default WordPress 'uploads' folder. Leave this field empty for restoring the default path.", "bodi0-easy-cache"); ?>
           </div>
         </th>
-        <td valign="top"><input name="cache-folder" id="cache-folder" type="text" style="width:400px" 
+        <td style="vertical-align:top"><input name="cache-folder" id="cache-folder" type="text" style="width:400px" 
         value="<?php echo get_option('easy_cache_option_cache_folder') ?>"/></td>
       </tr>
       <tr class="alternate">
-        <th valign="top"><?php _e("Cached file expires after", "bodi0-easy-cache"); ?>:
+        <th style="vertical-align:top"><?php _e("Cached file expires after", "bodi0-easy-cache"); ?>:
           <div class="small">
             <?php _e("Value in minutes, integers only, greater than zero","bodi0-easy-cache");?>,<br/> 
             <?php _e("1 hour=60, 1 day=1440, 1 week=10080.", "bodi0-easy-cache")?>
           </div>
         </th>
-        <td valign="top"><input name="cache-time" id="cache-time" type="text" value="<?php echo get_option('easy_cache_option_cache_time');?>" style="width:80px"/></td>
+        <td style="vertical-align:top"><input name="cache-time" id="cache-time" type="text" value="<?php echo get_option('easy_cache_option_cache_time');?>" style="width:80px"/></td>
       </tr>
       <tr>
-        <th valign="top"><?php _e("Exclude search queries from caching", "bodi0-easy-cache"); ?>:
+        <th style="vertical-align:top"><?php _e("Exclude search queries from caching", "bodi0-easy-cache"); ?>:
           <div class="small">
             <?php _e("Select to cache or not all search results in your web site. It will be useful to set this option to 'No' if you have huge amount of traffic, generated by searches in order to speed-up page/post display.", "bodi0-easy-cache"); ?>
           </div>
         </th>
-        <td valign="top"><select name="easy-cache-exclude-search" id="easy-cache-exclude-search">
+        <td style="vertical-align:top"><select name="easy-cache-exclude-search" id="easy-cache-exclude-search">
             <?php 
 						$exlude_search_selected_yes = '';
 						$exlude_search_selected_no = '';
@@ -321,10 +331,10 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
           </select></td>
       </tr>
       <tr class="alternate">
-      	<th valign="top"><?php _e("Minify saved cache file","bodi0-easy-cache"); ?>:<br />
+      	<th style="vertical-align:top"><?php _e("Minify saved cache file","bodi0-easy-cache"); ?>:<br />
 <div class="small"><?php _e("Select to optimize saved cache file on disk for further performance improvement by striping extra spaces, new lines, tabs, etc., on average minification reduces the cache file size within 6 to 12%, depending on how formatted is the HTML content of non-cached file.","bodi0-easy-cache"); ?></div></th>
         
-        <td>
+        <td style="vertical-align:top">
         <select name="easy-cache-minify-cache-file" id="easy-cache-minify-cache-file">
             <?php 
 						$exlude_minify_selected_yes = '';
@@ -343,7 +353,7 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
         </td>
       </tr>
 			<tr>
-      	<th valign="top"><?php _e("Rebuild cached file on page/post/comment update","bodi0-easy-cache"); ?>:<br />
+      	<th style="vertical-align:top"><?php _e("Rebuild cached file on page/post/comment update","bodi0-easy-cache"); ?>:<br />
 <div class="small"><?php _e("Select to automatically recreate cached file on disk when post or page has been modified (including when a comment is added or updated, which causes the comment count for the page/post to update), useful if you do not want your website visitors to wait for cache to expire to get the latest page/post/comments changes.","bodi0-easy-cache"); ?></div></th>
         
         <td>
@@ -365,12 +375,12 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
         </td>
       </tr>
       <tr class="alternate">
-        <th valign="top"><?php _e("Exclude pages/posts from caching", "bodi0-easy-cache"); ?>:
+        <th style="vertical-align:top"><?php _e("Exclude pages/posts from caching", "bodi0-easy-cache"); ?>:
           <div class="small">
             <?php _e("Select pages or posts from published ones, which you don`t want to be cached, sorted by title, private pages or posts are also in this list. Excluding posts/pages is useful when you have registration form or any other specific (custom) search form implemented on these posts/pages.", "bodi0-easy-cache"); ?>
           </div>
         </th>
-        <td valign="top">
+        <td style="vertical-align:top">
         <strong><?php _e("Pages","bodi0-easy-cache"); ?></strong>
         <div style="height: auto;max-height: 400px;min-height: 40px;overflow: scroll;width: 400px;">
         <?php 
@@ -453,7 +463,7 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
       <tr>
            
       
-      <th valign="top"><?php _e("Minify and combine CSS files","bodi0-easy-cache"); ?>:
+      <th style="vertical-align:top"><?php _e("Minify and combine CSS files","bodi0-easy-cache"); ?>:
       <div class="small"><?php _e("Insert absolute URL (valid URL according RFC 2396) of CSS files in sequence of their appearance in non-cached page for minification and combination. This process will reduce the number and size of HTTP requests to your server. The CSS files will be merged as single cached CSS resource file, named<code>_css.min.css</code> and saved in your current theme's folder.","bodi0-easy-cache"); 			
 			?>
 			<br />
@@ -468,7 +478,7 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
 			if (ini_get("allow_url_fopen")) {
 			?>
      
-      <td>
+      <td style="vertical-align:top">
       <strong><?php _e("URL of CSS files, one per line","bodi0-easy-cache"); ?></strong>
       <textarea name="easy-cache-minify-css-files" id="easy-cache-minify-css-files" style="width:400px;height:300px;" ><?php 
 			
@@ -476,7 +486,7 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
 			$minified_css_files = array();
 			$new_minified_css_files = array();
 			$buffer = '';
-
+			$merged_css_files_list='';
 			//Decode the values from hex to string...and convert it to array()
 			$minified_css_files =  explode("~~~",get_option("easy_cache_option_minified_css_files")); 
 			$minified_css_files_list = '';
@@ -490,12 +500,14 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
 			//Check to see if CSS files needs to be minified and combined and generate the file only is user save the settings
 			if (!empty($new_minified_css_files) && isset($_POST['save-settings']) && $_POST['save-settings'] == 'save') {		 
 				foreach( $new_minified_css_files as $new_minified_css_file)  {
-					if (trim($new_minified_css_file) != '' && easy_cache_is_url($new_minified_css_file)) $buffer .= "\n".'/****File '.$new_minified_css_file.'****/'."\n". 
-					@file_get_contents($new_minified_css_file);
+					if (trim($new_minified_css_file) != '' && easy_cache_is_url($new_minified_css_file)) 
+					$buffer .= @file_get_contents($new_minified_css_file);
+					$merged_css_files_list .= "\n".$new_minified_css_file;
 				}
 			//Write new CSS minified and combined file if contents not empty 
-			if (trim($buffer) != '')	@file_put_contents(get_stylesheet_directory() .DIRECTORY_SEPARATOR. $cssfile, 
-			"/*Merged CSS files on ".gmdate('D, Y-m-d H:i:s')." GMT*/"."\n".easy_cache_optimize_css_files($buffer));
+			if (trim($buffer) != '') @file_put_contents(get_stylesheet_directory() .DIRECTORY_SEPARATOR. $cssfile, 
+			"/*Merged CSS files on ".gmdate('D, Y-m-d H:i:s')." GMT*/"."\n/*".$merged_css_files_list."*/"
+			.easy_cache_optimize_css_files($buffer));
 		
 				}
 		//No minification and combination of CSS
@@ -519,8 +531,43 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
      
       </tr>
       
+      <tr class="alternate">
+	<th style="vertical-align:top"><?php _e("Do not cache mobile pages/posts","bodi0-easy-cache")?>
+	<div class="small"><?php _e("Select to skip caching of pages/posts, generated by Jetpack by WordPress.com mobile theme, highly recommended to set this to 'Yes', otherwise your website visitors may see a mix of the mobile pages/posts and desktop pages/posts. Skipping the caching mechanism for mobile version of your website is necessary, because the Jetpack module by WordPress.com provides his own caching procedure.","bodi0-easy-cache");?></div>
+	</th>
+	<td style="vertical-align:top">
+	<?php if ( !function_exists( 'jetpack_is_mobile' ) ) {
+		echo "<strong>"; 
+		_e("Jetpack module by WordPress.com is Not Available","bodi0-easy-cache");  
+		echo "</strong>"; 
+		}
+		 //Jetpack is installed and available
+		  else { ?>
+		<select name="easy-cache-skip-jetpack-mobile-cache" id="easy-cache-skip-jetpack-mobile-cache">
+            <?php 
+						$easy_cache_option_skip_jetpack_cache_yes = '';
+						$easy_cache_option_skip_jetpack_cache_no = '';
+		
+				if (get_option('easy_cache_option_skip_jetpack_mobile_caching') == 'Yes') $easy_cache_option_skip_jetpack_cache_yes = ' selected="selected" ';
+				else $easy_cache_option_skip_jetpack_cache_no = ' selected="selected" ';
+				 ?>
+            <option value="Yes" <?php echo $easy_cache_option_skip_jetpack_cache_yes;?>>
+            <?php _e("Yes", "bodi0-easy-cache"); ?>
+            </option>
+            <option value="No" <?php echo $easy_cache_option_skip_jetpack_cache_no;?>>
+            <?php _e("No", "bodi0-easy-cache"); ?>
+            </option>
+          </select>	
+			
+			
+			
+	<?php	}
+	?></td>
+	</tr>
+      
+      
       <tr>
-        <td colspan="2" valign="top"><p>
+        <td colspan="2" style="vertical-align:top"><p>
             <input type="submit" name="submit" class="button-primary submit" value="<?php _e("Save settings","bodi0-easy-cache"); ?>"/>
             &nbsp;<a accesskey="c" href="javascript:void(0)" onclick="document.getElementById('form-cache').reset();" class="button-secondary cancel"><?php _e("Reset", "bodi0-easy-cache"); ?></a> 
             &nbsp;<a accesskey="d" href="?page=<?php echo $_GET['page']; ?>&amp;restore=defaults&amp;_wpnonce=<?php echo wp_create_nonce( 'easy-cache-nonce' ) ?>" class="button-secondary cancel"><?php _e("Restore default settings", "bodi0-easy-cache"); ?></a> 
@@ -659,7 +706,7 @@ wp_nonce_field( 'easy-cache-nonce' );
     </thead>
     <tbody>
     <tr class="alternate">
-      <th valign="top"> <?php _e("Average Web Server load","bodi0-easy-cache"); ?>:
+      <th style="vertical-align:top"> <?php _e("Average Web Server load","bodi0-easy-cache"); ?>:
       <div class="small"><?php _e("These values represents the current system software, average system load in the last 1, 5 and 15 minutes, also memory usage (current and peak).","bodi0-easy-cache");?><br />
 <?php _e("Values above 80 means that your web server is overloaded.","bodi0-easy-cache"); ?></div>
       </th>
@@ -685,14 +732,14 @@ wp_nonce_field( 'easy-cache-nonce' );
 			</td>
     </tr>
     <tr>
-      <th valign="top"><?php _e("Number of cache files found", "bodi0-easy-cache"); ?>:
+      <th style="vertical-align:top"><?php _e("Number of cache files found", "bodi0-easy-cache"); ?>:
       <div class="small"><?php _e("Files are inside cached folder","bodi0-easy-cache"); ?><br />
       <code><?php echo get_option("easy_cache_option_cache_folder"); ?></code>
       </div></th>
       <td><strong><?php echo $i ?></strong></td>
     </tr>
     <tr class="alternate">
-    <th valign="top"><?php _e("Minified and combined CSS file","bodi0-easy-cache"); ?>:
+    <th style="vertical-align:top"><?php _e("Minified and combined CSS file","bodi0-easy-cache"); ?>:
     <div class="small"><?php _e("Details about size of minified and combined CSS file, in folder: ","bodi0-easy-cache"); ?>
     <br />
     <?php echo "<code>".get_stylesheet_directory()."</code>"; ?>
@@ -713,7 +760,7 @@ wp_nonce_field( 'easy-cache-nonce' );
     </td>
     </tr>
     <tr>
-      <th valign="top"><?php _e("Cache files age (min/max/avg)","bodi0-easy-cache"); ?>:
+      <th style="vertical-align:top"><?php _e("Cache files age (min/max/avg)","bodi0-easy-cache"); ?>:
       <div class="small"><?php _e("Displays freshness of the cached files.","bodi0-easy-cache"); ?></div>
       </th>
       <td><strong><?php 
@@ -724,8 +771,9 @@ wp_nonce_field( 'easy-cache-nonce' );
 			}
 			?></strong></td>
     </tr>
-    <tr class="alternate">
-      <th valign="top"><?php _e("Cache files size (min/max/avg)","bodi0-easy-cache"); ?>:
+    	
+	<tr class="alternate">
+      <th style="vertical-align:top"><?php _e("Cache files size (min/max/avg)","bodi0-easy-cache"); ?>:
       <div class="small"><?php _e("Displays smallest, largest and averaged size of saved cached files.","bodi0-easy-cache"); ?></div>
       </th>
       <td><strong><?php 
@@ -734,7 +782,7 @@ wp_nonce_field( 'easy-cache-nonce' );
 			echo ' / '. round($average_cache_size/1024,2); _e("KiB","bodi0-easy-cache");?></strong></td>
     </tr>
     <tr>
-    <th valign="top">
+    <th style="vertical-align:top">
     <?php _e("Total space occupied by cache files","bodi0-easy-cache"); ?>:
         </th>
         <td>
