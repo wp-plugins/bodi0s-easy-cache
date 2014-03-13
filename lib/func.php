@@ -141,7 +141,7 @@ if (!function_exists("easy_cache_optimize_css_files")) {
 	$buffer = str_replace(array(', ',' ,',' , '), ',', $buffer);
 	$buffer = str_replace(array('> ',' >',' > '), '>', $buffer);
 	//Optimize CSS units
-	$buffer = str_replace(array(' 0%',' 0in',' 0cm',' 0mm',' 0em',' 0ex',' 0pt',' 0pc',' 0px'), '0', $buffer);
+	//$buffer = str_replace(array(' 0%',' 0in',' 0cm',' 0mm',' 0em',' 0ex',' 0pt',' 0pc',' 0px'), '0', $buffer);
 	$buffer = str_replace(array(',0%',',0in',',0cm',',0mm',',0em',',0ex',',0pt',',0pc',',0px'), ',0', $buffer);
 	$buffer = str_replace(array(':0%',':0in',':0cm',':0mm',':0em',':0ex',':0pt',':0pc',':0px'), ':0', $buffer);
 	//Optimize CSS colors
