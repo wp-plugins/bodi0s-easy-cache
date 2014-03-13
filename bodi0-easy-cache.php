@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin Name: bodi0`s Easy cache
 Plugin URI: http://wordpress.org/plugins/bodi0s-easy-cache/
 Description: Cashes the pages/posts in your blog for improved performance.
-Version: 0.4
+Version: 0.5
 Text Domain: bodi0-easy-cache
 Domain Path: /languages
 Author: Budiony Damyanov
@@ -45,7 +45,8 @@ $plugin_options = array(
 'easy_cache_option_minify_cache_file'=>'Yes', 
 'easy_cache_option_auto_rebuild_cache_file'=>'Yes',
 'easy_cache_option_minified_css_files'=>'',
-'easy_cache_option_skip_jetpack_mobile_caching'=>'Yes'
+'easy_cache_option_skip_jetpack_mobile_caching'=>'Yes',
+'easy_cache_option_search_cache_timeout'=>'5'
 
 
 );
@@ -82,8 +83,8 @@ if (!function_exists('easy_cache_install')) {
 	function easy_cache_install() {
 		
 		global $wpdb, $plugin_options;
-		if (version_compare(PHP_VERSION, '5.3.6', '<'))	{
-			_easy_cache_trigger_error('PHP version below 5.3.6 is not supported, because of the heavy usage of class <code>DOMDocument</code> and his method <code>saveHTML</code>. Even if version PHP 5.3.6 was released in March 2011 ('.(date('Y') - 2011).' years ago), it appears, that there are still lazy and careless hosting service providers. Please yell to those "system administrators" and upgrade to PHP 5.3.6 or newer.', E_USER_ERROR);
+		if (version_compare(PHP_VERSION, '5.2.4', '<'))	{
+			_easy_cache_trigger_error('PHP version below 5.2.4 is not supported. Even though version PHP 5.2.4 was released in August 2007 ('.(date('Y') - 2007).' years ago), it appears, that there are still lazy and careless hosting service providers. Please yell to those "system administrators" and upgrade to PHP 5.2.4 or newer.', E_USER_ERROR);
 			die();
 		}
 		// Important: Check if current user can install plugins

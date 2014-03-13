@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin`s Administration panel
 Author: Budiony Damyanov
 Email: budiony@gmail.com
-Version: 0.4
+Version: 0.5
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)
@@ -68,11 +68,14 @@ $auto_rebuild_cache = (!in_array($_POST['easy-cache-auto-rebuild-cache-file'], a
 $skip_jetpack_caching = (!isset($_POST['easy-cache-skip-jetpack-mobile-cache']) ? 'Yes' :  
 !in_array($_POST['easy-cache-skip-jetpack-mobile-cache'], array("Yes","No"))) ? 'Yes': $_POST['easy-cache-skip-jetpack-mobile-cache'];
 
+//Search queries cache timeout
 
 //Array of excluded pages/posts
 $exclude_pages = (!empty($_POST['pages'])) ? maybe_serialize($_POST['pages']): array();
 //Array of minified CSS files
 $minified_css_files = (!empty($_POST['easy-cache-minify-css-files'])) ? explode("\n",$_POST['easy-cache-minify-css-files']) : array();
+//Remove duplicates
+$minified_css_files = array_unique( array_map("trim", $minified_css_files) );
 //Initialize var
 $hex_minified_css_files = '';
 //Convert CSS URL to hex string before inserting in options table, only valid URL are accepted
@@ -92,6 +95,8 @@ foreach ($minified_css_files as $minified_css_file) {
 	update_option('easy_cache_option_auto_rebuild_cache_file',$auto_rebuild_cache);
 	update_option("easy_cache_option_minified_css_files", $hex_minified_css_files);
 	update_option("easy_cache_option_skip_jetpack_mobile_caching", $skip_jetpack_caching);
+	update_option("easy_cache_option_search_cache_timeout",((int)$_POST['easy-cache-search-cache-timeout'] < 1) ? 1 : (int)$_POST['easy-cache-search-cache-timeout']);
+
 //Response handling
 ?>
 
@@ -117,9 +122,59 @@ $cache_folder_created =	mkdir($cache_folder, 0755);
 
 }	 
 
+
+
+
 /*****************************************************************************************************************************/
 
-//Delete cache files
+//Delete specific cache file
+
+/****************************************************************************************************************************/
+
+if (isset($_GET['delete-specific-cache']) && strlen($_GET['delete-specific-cache'])==40 
+&& ( wp_verify_nonce( $nonce, 'easy-cache-nonce' )) ) {
+//Clean unnecessary slashes
+$cache_folder = 	get_option('easy_cache_option_cache_folder');
+$result = false;
+	if ( file_exists( untrailingslashit($cache_folder) .DIRECTORY_SEPARATOR. $_GET['delete-specific-cache'].".cache" ) ) {
+		unlink( untrailingslashit($cache_folder) .DIRECTORY_SEPARATOR. $_GET['delete-specific-cache'].".cache" );
+		$result = true;
+	}
+			
+	if ($result) {
+	//Response handling
+		?>
+<div id="message" class="updated">
+  <p>
+    <?php _e("Cached file associated with this page/post ", "bodi0-easy-cache"); ?>
+    <strong><?php _e(" was deleted", "bodi0-easy-cache"); ?></strong>.</p>
+</div>
+<?php 
+	}
+	//No cache file was found or cannot be deleted
+	else { ?>
+<div id="message" class="updated error">
+  <p>
+    <?php _e("No associated cached file was found or cached file cannot be deleted", "bodi0-easy-cache"); ?>.</p>
+</div>
+<?php		
+		}
+	}	 
+
+
+
+
+
+
+
+
+
+
+
+
+/*****************************************************************************************************************************/
+
+//Delete all cached files
 
 /****************************************************************************************************************************/
 
@@ -146,12 +201,11 @@ $cache_folder_items = glob( preg_replace('/(\*|\?|\[)/', '[$1]', untrailingslash
 </div>
 <?php 
 	}
-	//No chace files found or cannot be deleted
+	//No cache files found or cannot be deleted
 	else { ?>
 <div id="message" class="updated error">
   <p>
-    <?php _e("No cache files were found or cache files cannot be deleted", "bodi0-easy-cache"); ?>
-    .</p>
+    <?php _e("No cache files were found or cache files cannot be deleted", "bodi0-easy-cache"); ?>.</p>
 </div>
 <?php		
 		}
@@ -210,7 +264,7 @@ if(isset($_GET['restore']) && $_GET['restore']=='defaults' && ( wp_verify_nonce(
 	update_option("easy_cache_option_auto_rebuild_cache_file","Yes");
 	update_option("easy_cache_option_minified_css_files","");
 	update_option("easy_cache_option_skip_jetpack_mobile_caching","Yes");
-
+	update_option("easy_cache_option_search_cache_timeout","5");
 	//Response handling
 ?>
 <div id="message" class="updated">
@@ -245,10 +299,13 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
   <p>
 <strong><?php _e("Speed up your website by setting the parameters for the caching mechanism.", "bodi0-easy-cache") ?></strong>
     <br />
-    <?php _e("The plug-in creates in selected cache folder cache file for every requested page, according to the caching parameters.", "bodi0-easy-cache"); ?>
+    &raquo; <?php _e("The plug-in creates in selected cache folder cache file for every requested page, according to the caching parameters.", "bodi0-easy-cache"); ?>
     <br />
-    <?php _e("Search queries or individual pages and posts can be excluded from caching.", "bodi0-easy-cache"); ?><br />
-<?php _e("The cached files are automatically  updated/deleted when pages/posts are updated (including when a comment is added or updated, which causes the comment count for the post to update) or deleted permanently.","bodi0-easy-cache"); ?><br />
+		&raquo; <?php _e("Make sure that all links, everywhere in your blog are absolute, not relative (including URL for backgrounds), according RFC 2396.","bodi0-easy-cache"); ?>
+    <br />
+
+    &raquo; <?php _e("Search queries or individual pages and posts can be excluded from caching.", "bodi0-easy-cache"); ?><br />
+		&raquo; <?php _e("The cached files are automatically  updated/deleted when pages/posts are updated (including when a comment is added or updated, which causes the comment count for the post to update) or deleted permanently.","bodi0-easy-cache"); ?><br />
 <div style="background-color:#ccc;width:100%;height:1px"></div>
 <br />
 
@@ -312,10 +369,12 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
       <tr>
         <th style="vertical-align:top"><?php _e("Exclude search queries from caching", "bodi0-easy-cache"); ?>:
           <div class="small">
-            <?php _e("Select to cache or not all search results in your web site. It will be useful to set this option to 'No' if you have huge amount of traffic, generated by searches in order to speed-up page/post display.", "bodi0-easy-cache"); ?>
+            <?php _e("Select to exclude or not from caching all search results in your web site. It will be useful to set this option to 'No' if you have huge amount of traffic, generated by searches in order to speed-up page/post display.", "bodi0-easy-cache"); ?>
           </div>
         </th>
-        <td style="vertical-align:top"><select name="easy-cache-exclude-search" id="easy-cache-exclude-search">
+        <td style="vertical-align:top"><select name="easy-cache-exclude-search" id="easy-cache-exclude-search"
+        onchange="javascript: if(jQuery(this).val()=='Yes') jQuery('#easy-cache-search-cache-timeout').attr('readonly','readonly'); else jQuery('#easy-cache-search-cache-timeout').removeAttr('readonly');" 
+        >
             <?php 
 						$exlude_search_selected_yes = '';
 						$exlude_search_selected_no = '';
@@ -328,9 +387,21 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
             <option value="No" <?php echo $exlude_search_selected_no;?>>
             <?php _e("No", "bodi0-easy-cache"); ?>
             </option>
-          </select></td>
+          </select>
+          </td>
       </tr>
       <tr class="alternate">
+      <th style="vertical-align:top"><?php _e("Search queries cache expire after","bodi0-easy-cache"); ?>: 
+      <div class="small"><?php _e("Choose search results cache timeout (if search queries are not excluded from caching), in minutes, integers only, select value for the timeout lower than global cache expire time if you prefer to have fresher information in searches","bodi0-easy-cache"); ?>,<br />
+            <?php _e("1 hour=60, 1 day=1440, 1 week=10080.", "bodi0-easy-cache")?>
+
+</div>
+      </th>
+      <td style="vertical-align:top"><input type="text" name="easy-cache-search-cache-timeout"  id="easy-cache-search-cache-timeout" 
+          value="<?php echo get_option('easy_cache_option_search_cache_timeout');?>" style="width:80px" 
+					<?php echo ( get_option('easy_cache_option_exclude_search_queries') == 'No' ) ? '' : ' readonly="readonly"'; ?>/></td>
+      </tr>
+      <tr>
       	<th style="vertical-align:top"><?php _e("Minify saved cache file","bodi0-easy-cache"); ?>:<br />
 <div class="small"><?php _e("Select to optimize saved cache file on disk for further performance improvement by striping extra spaces, new lines, tabs, etc., on average minification reduces the cache file size within 6 to 12%, depending on how formatted is the HTML content of non-cached file.","bodi0-easy-cache"); ?></div></th>
         
@@ -352,11 +423,11 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
         
         </td>
       </tr>
-			<tr>
+			<tr class="alternate">
       	<th style="vertical-align:top"><?php _e("Rebuild cached file on page/post/comment update","bodi0-easy-cache"); ?>:<br />
 <div class="small"><?php _e("Select to automatically recreate cached file on disk when post or page has been modified (including when a comment is added or updated, which causes the comment count for the page/post to update), useful if you do not want your website visitors to wait for cache to expire to get the latest page/post/comments changes.","bodi0-easy-cache"); ?></div></th>
         
-        <td>
+        <td style="vertical-align:top">
         <select name="easy-cache-auto-rebuild-cache-file" id="easy-cache-auto-rebuild-cache-file">
             <?php 
 						$auto_rebuild_selected_yes = '';
@@ -374,10 +445,11 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
         
         </td>
       </tr>
-      <tr class="alternate">
+      <tr>
         <th style="vertical-align:top"><?php _e("Exclude pages/posts from caching", "bodi0-easy-cache"); ?>:
           <div class="small">
-            <?php _e("Select pages or posts from published ones, which you don`t want to be cached, sorted by title, private pages or posts are also in this list. Excluding posts/pages is useful when you have registration form or any other specific (custom) search form implemented on these posts/pages.", "bodi0-easy-cache"); ?>
+            <?php _e("Select pages or posts from published ones, which you don`t want to be cached, sorted by title, private pages or posts are also in this list. Excluding posts/pages is useful when you have registration form or any other specific (custom) search form implemented on these posts/pages.", "bodi0-easy-cache"); ?><br />
+<?php _e("You can delete associated with given post/page cached file by clicking on the red X","bodi0-easy-cache"); ?>.
           </div>
         </th>
         <td style="vertical-align:top">
@@ -414,9 +486,17 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
 				foreach ( $pages as $page ) {
 					//If page is excluded then check it...
 					if (in_array($page->ID,(array)$excluded)) { $checked = ' checked="checked" ';}
-					$option = '<input type="checkbox" name="pages[]" id="page-'.$page->ID.'" value="' .  $page->ID  . '" '.$checked.'/>'
+					//Show link to delete cached file only if it exists
+					if ( file_exists( untrailingslashit( get_option("easy_cache_option_cache_folder") ) .DIRECTORY_SEPARATOR. sha1(get_permalink($page->ID)).".cache" ) ) {
+					echo '( <a href="?page='. $_GET['page'] .'&delete-specific-cache='.sha1(get_permalink($page->ID)).
+					'&amp;_wpnonce='. wp_create_nonce( 'easy-cache-nonce' ) 
+					.'" title="'.__("Delete associated cached file","bodi0-easy-cache").'"
+					class="delete"
+					>X</a> ) ';}
+					
+					echo '<input type="checkbox" name="pages[]" id="page-'.$page->ID.'" value="' .  $page->ID  . '" '.$checked.'/>'
 					.'<a href="'.get_permalink($page->ID).'" target="_blank">'.$page->post_title.'</a>'.' <em class="small">('.$page->post_date.', '.$page->post_status.', '. get_the_author_meta( 'user_nicename', $page->post_author).')</em><br/>';
-					echo $option;
+					
 					$checked='';
 				}
 
@@ -450,9 +530,16 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
 				foreach ( $posts as $post ) {
 					//If page is excluded then check it...
 					if (in_array($post->ID,(array)$excluded)) { $checked = ' checked="checked" ';}
-					$option = '<input type="checkbox" name="pages[]" id="page-'.$post->ID.'" value="' .  $post->ID  . '" '.$checked.'/>'
+					//Show link to delete cached file only if it exists
+					if ( file_exists( untrailingslashit( get_option("easy_cache_option_cache_folder") ) .DIRECTORY_SEPARATOR. sha1(get_permalink($post->ID)).".cache" ) ) {
+					echo '( <a href="?page='. $_GET['page'] .'&delete-specific-cache='.sha1(get_permalink($post->ID)).
+					'&amp;_wpnonce='. wp_create_nonce( 'easy-cache-nonce' ) 
+					.'" title="'.__("Delete associated cached file","bodi0-easy-cache").'"
+					class="delete"
+					>X</a> ) ';}
+					echo '<input type="checkbox" name="pages[]" id="page-'.$post->ID.'" value="' .  $post->ID  . '" '.$checked.'/>'
 					.'<a href="'.get_permalink($post->ID).'" target="_blank">'.$post->post_title.'</a>'.' <em class="small">('.$post->post_date.', '.$post->post_status.',	'. get_the_author_meta( 'user_nicename', $post->post_author) . ')</em><br/>';
-					echo $option;
+
 					$checked='';
 				}
 
@@ -460,7 +547,7 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
           </div>
           </td>
       </tr>
-      <tr>
+      <tr class="alternate">
            
       
       <th style="vertical-align:top"><?php _e("Minify and combine CSS files","bodi0-easy-cache"); ?>:
@@ -469,7 +556,7 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
 			<br />
 	<?php	_e("This file will be included in every cached file, old links will be removed.","bodi0-easy-cache"); ?><br />
 <strong><?php _e("Important","bodi0-easy-cache");?>:</strong><br />
-<?php _e("Make sure that any URL inside the original CSS code is abosulte, not relative (otherwise you will have missing backrounds).  Also make sure you type the URL of files you want to combine and minify exactly as it is in your original page / post (for example some stylesheets links may have dynamic content attached to them, like: <u>http://www.example.com/color.php?ver=1.2</u>), otherwise minification and combination will not work correctly. If you modify the original CSS files, remember to save settings here in order to re-generate cached CSS resource file.","bodi0-easy-cache"); ?><br />
+<?php _e("Make sure that any URL inside the original CSS code is abosulte, not relative (otherwise you will have missing backgrounds).  Also make sure you type the URL of files you want to combine and minify exactly as it is in your original page / post (for example some stylesheets links may have dynamic content attached to them, like: <u>http://www.example.com/color.php?ver=1.2</u>), otherwise minification and combination will not work correctly. If you modify the original CSS files, remember to save settings here in order to re-generate cached CSS resource file.","bodi0-easy-cache"); ?><br />
 
 </div>
       </th>
@@ -479,7 +566,7 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
 			?>
      
       <td style="vertical-align:top">
-      <strong><?php _e("URL of CSS files, one per line","bodi0-easy-cache"); ?></strong>
+      <strong><?php _e("URL of CSS files, one per line","bodi0-easy-cache"); ?>, <?php _e("duplicates will be removed","bodi0-easy-cache"); ?></strong>
       <textarea name="easy-cache-minify-css-files" id="easy-cache-minify-css-files" style="width:400px;height:300px;" ><?php 
 			
 			//Initialize the arrays and the buffer
@@ -524,14 +611,14 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
 			}
 			/* The 'allow_url_fopen' is set to false, so no CSS minification and combination is possible */
 			else { ?>
-			<td><?php _e("The <code>allow_url_fopen</code> variable is set to <code>Off</code> in your <code>php.ini</code> configuration, no CSS minification and combination is possible. Contact your hosting company or web server administrator for details how this can be changed.","bodi0-easy-cache"); ?></td>	
+			<td style="vertical-align:top"><?php _e("The <code>allow_url_fopen</code> variable is set to <code>Off</code> in your <code>php.ini</code> configuration, no CSS minification and combination is possible. Contact your hosting company or web server administrator for details how this can be changed.","bodi0-easy-cache"); ?></td>	
 		 <?php }
 		 //
 		 ?>
      
       </tr>
       
-      <tr class="alternate">
+      <tr>
 	<th style="vertical-align:top"><?php _e("Do not cache mobile pages/posts","bodi0-easy-cache")?>
 	<div class="small"><?php _e("Select to skip caching of pages/posts, generated by Jetpack by WordPress.com mobile theme, highly recommended to set this to 'Yes', otherwise your website visitors may see a mix of the mobile pages/posts and desktop pages/posts. Skipping the caching mechanism for mobile version of your website is necessary, because the Jetpack module by WordPress.com provides his own caching procedure.","bodi0-easy-cache");?></div>
 	</th>
@@ -566,7 +653,7 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
 	</tr>
       
       
-      <tr>
+      <tr class="alternate">
         <td colspan="2" style="vertical-align:top"><p>
             <input type="submit" name="submit" class="button-primary submit" value="<?php _e("Save settings","bodi0-easy-cache"); ?>"/>
             &nbsp;<a accesskey="c" href="javascript:void(0)" onclick="document.getElementById('form-cache').reset();" class="button-secondary cancel"><?php _e("Reset", "bodi0-easy-cache"); ?></a> 
@@ -609,7 +696,7 @@ wp_nonce_field( 'easy-cache-nonce' );
 	
 	$cache_folder = 	get_option('easy_cache_option_cache_folder');
 	//Get cache files created by plugin and calculate total size (filter [ and ], otherwise glob() will not function properly)
-	$cache_folder_items = glob( preg_replace('/(\*|\?|\[)/', '[$1]', untrailingslashit($cache_folder)). DIRECTORY_SEPARATOR .'[a-f0-9]*.cache');
+		$cache_folder_items = easy_cache_list_folders(untrailingslashit($cache_folder). DIRECTORY_SEPARATOR, '[a-f0-9]*.cache');
 		if (!empty($cache_folder_items)) {
 			
 		foreach ($cache_folder_items as $cache_file) {
@@ -732,7 +819,8 @@ wp_nonce_field( 'easy-cache-nonce' );
 			</td>
     </tr>
     <tr>
-      <th style="vertical-align:top"><?php _e("Number of cache files found", "bodi0-easy-cache"); ?>:
+      <th style="vertical-align:top"><?php _e("Number of cache files found", "bodi0-easy-cache"); ?><br />
+			<?php _e("(including cached searches and custom pages)","bodi0-easy-cache"); ?>:
       <div class="small"><?php _e("Files are inside cached folder","bodi0-easy-cache"); ?><br />
       <code><?php echo get_option("easy_cache_option_cache_folder"); ?></code>
       </div></th>

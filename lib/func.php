@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin`s library of some handy functions
 Author: bodi0
 Email: budiony@gmail.com
-Version: 0.3
+Version: 0.5
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)
@@ -156,23 +156,28 @@ if (!function_exists("easy_cache_optimize_css_files")) {
 //Minify HTML contents
 if (!function_exists('easy_cache_html_compress')) {
 	function easy_cache_html_compress($buffer) {
-			// Remove extra tabs, spaces, newlines, etc.
-			$buffer = preg_replace('~(\s)\1+~', '$1', $buffer);
-			$buffer = str_replace(array("\t","\r"),"", $buffer);
-			return $buffer;
-	 }
+		// Remove extra tabs, spaces, newlines, etc.
+		$buffer = preg_replace('~(\s)\1+~', '$1', $buffer);
+		$buffer = str_replace(array("\t","\r","\t\r","\r\t"),"", $buffer);
+		$buffer = str_replace(array(" />"),"/>", $buffer);
+		$buffer = str_replace(array(" </"),"</", $buffer);
+		return $buffer;
+	}
 }
+
+
+
 
 //Check for correct URL according to http://www.faqs.org/rfcs/rfc2396
 if (!function_exists('easy_cache_is_url')) {
-function easy_cache_is_url($url) 
-{
-	if (function_exists("filter_var") && filter_var($url, FILTER_VALIDATE_URL)) {
-		return true;
-	} else {
-		return false;
-	}
-} 
+	function easy_cache_is_url($url) 
+	{
+		if (function_exists("filter_var") && filter_var($url, FILTER_VALIDATE_URL)) {
+			return true;
+		} else {
+			return false;
+		}
+	} 
 }
 
 ?>
