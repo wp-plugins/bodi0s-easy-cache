@@ -74,13 +74,26 @@ $ignore_page: Marker, flag if the page should be excluded or not from caching;
 	//
 	$excluded = (!is_array($excluded)) ? maybe_unserialize($excluded) : array();
 	
-	//Annonymous function callback to get link to the requested page (transform it as permalink from page ID), PHP 5.3 or higher
+	/*//Annonymous function callback to get link to the requested page (transform it as permalink from page ID), PHP 5.3 or higher
 	$callback = function($value) {
 		return get_permalink($value);
 	};		
 
 	//Modify excluded pages IDs (and convert them to array if they are not already an array)
-	$excluded = (array_map($callback, (array)$excluded));
+	$excluded = (array_map($callback, (array)$excluded));*/
+	//Annonymous function callback to get link to the requested page (transform it as permalink from page ID)
+		//$callback = function($value) {
+		//	return get_permalink($value);
+		//};		
+		
+	if (!function_exists('easy_cache_convert_to_permalinks')) {
+		function easy_cache_convert_to_permalinks($value) {
+			return get_permalink($value);
+		};
+	}				
+	
+	//Modify excluded pages IDs (and convert them to array if they are not already an array)
+	$excluded = (array_map("easy_cache_convert_to_permalinks", (array)$excluded));
 	
 	//Cached count of the list for faster looping
 	$number_of_excluded = count($excluded);
