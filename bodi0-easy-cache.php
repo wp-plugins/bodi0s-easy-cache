@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin Name: bodi0`s Easy cache
 Plugin URI: http://wordpress.org/plugins/bodi0s-easy-cache/
 Description: Caches the pages/posts in your blog for improved performance.
-Version: 0.5
+Version: 0.6
 Text Domain: bodi0-easy-cache
 Domain Path: /languages
 Author: Budiony Damyanov
@@ -37,7 +37,7 @@ $nonce = isset($_REQUEST['_wpnonce']) ? $_REQUEST['_wpnonce'] : '';
 $upload_dir = wp_upload_dir();
 /*Set the default plugin options*/
 $plugin_options = array(
-'easy_cache_option_cache_time'=>'5',
+'easy_cache_option_cache_time'=>'30',
 'easy_cache_option_cache_folder'=>untrailingslashit($upload_dir['basedir']).DIRECTORY_SEPARATOR."cached".DIRECTORY_SEPARATOR,
 'easy_cache_option_exclude_search_queries'=>'No',
 'easy_cache_option_exclude_pages'=>'',
@@ -46,7 +46,7 @@ $plugin_options = array(
 'easy_cache_option_auto_rebuild_cache_file'=>'Yes',
 'easy_cache_option_minified_css_files'=>'',
 'easy_cache_option_skip_jetpack_mobile_caching'=>'Yes',
-'easy_cache_option_search_cache_timeout'=>'5'
+'easy_cache_option_search_cache_timeout'=>'15'
 
 
 );

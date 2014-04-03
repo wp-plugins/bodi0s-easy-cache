@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin`s library of some handy functions
 Author: bodi0
 Email: budiony@gmail.com
-Version: 0.5
+Version: 0.6
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)
@@ -159,8 +159,12 @@ if (!function_exists('easy_cache_html_compress')) {
 		// Remove extra tabs, spaces, newlines, etc.
 		$buffer = preg_replace('~(\s)\1+~', '$1', $buffer);
 		$buffer = str_replace(array("\t","\r","\t\r","\r\t"),"", $buffer);
-		$buffer = str_replace(array(" />"),"/>", $buffer);
-		$buffer = str_replace(array(" </"),"</", $buffer);
+		$buffer = str_replace(array(" />","/>\r","/>\r ","/>\n","/>\n ","/>\r\n","/>\r\n "),"/>", $buffer);
+		$buffer = str_replace(array(" </","\r</"," \r</","\n</"," \n</","\r\n</"," \r\n</"),"</", $buffer);
+		$buffer = str_replace(array(";\r",";\r\n",";\n","; "," ;"," ; "),";", $buffer);
+		$buffer = str_replace(array("{ "," {"," { ","{  ","{ ", "{\r","{\n","{\r\n"), "{", $buffer);
+		$buffer = str_replace(array("} "," }"," } ","}\r","}\n","}\r\n"), "}", $buffer);
+
 		return $buffer;
 	}
 }

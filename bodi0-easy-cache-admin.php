@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin`s Administration panel
 Author: Budiony Damyanov
 Email: budiony@gmail.com
-Version: 0.5
+Version: 0.6
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)
@@ -108,7 +108,7 @@ foreach ($minified_css_files as $minified_css_file) {
 <?php 
 if (!file_exists($cache_folder)) {
 //Attempt to create the unique cache folder
-$cache_folder_created =	mkdir($cache_folder, 0755);
+$cache_folder_created =	@mkdir($cache_folder, 0755);
 	if (!$cache_folder_created) {
 ?>
 <div id="message" class="updated error">
@@ -121,9 +121,6 @@ $cache_folder_created =	mkdir($cache_folder, 0755);
 
 
 }	 
-
-
-
 
 /*****************************************************************************************************************************/
 
@@ -160,16 +157,6 @@ $result = false;
 <?php		
 		}
 	}	 
-
-
-
-
-
-
-
-
-
-
 
 
 /*****************************************************************************************************************************/
@@ -255,7 +242,7 @@ if (isset($_GET['delete-css']) && $_GET['delete-css']=='reset'
 /******************************************************************************************************************************/
 
 if(isset($_GET['restore']) && $_GET['restore']=='defaults' && ( wp_verify_nonce( $nonce, 'easy-cache-nonce' ))) {
-	update_option("easy_cache_option_cache_time","5");
+	update_option("easy_cache_option_cache_time","30");
 	update_option("easy_cache_option_cache_folder",untrailingslashit($upload_dir['basedir']).DIRECTORY_SEPARATOR."cached".DIRECTORY_SEPARATOR);
 	update_option("easy_cache_option_exclude_search_queries","No");
 	update_option("easy_cache_option_exclude_pages","");
@@ -264,7 +251,7 @@ if(isset($_GET['restore']) && $_GET['restore']=='defaults' && ( wp_verify_nonce(
 	update_option("easy_cache_option_auto_rebuild_cache_file","Yes");
 	update_option("easy_cache_option_minified_css_files","");
 	update_option("easy_cache_option_skip_jetpack_mobile_caching","Yes");
-	update_option("easy_cache_option_search_cache_timeout","5");
+	update_option("easy_cache_option_search_cache_timeout","15");
 	//Response handling
 ?>
 <div id="message" class="updated">

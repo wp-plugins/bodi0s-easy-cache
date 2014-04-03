@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_butt
 Tags: advanced cache, benchmark, benchmarking, cache, caching, cash, debug, debugging, execution, generation, highly extensible, includes extensive documentation, loading, options panel included, performance, easy cache, easycache, speed, super cache, w3c validated code, websharks framework, wp-cache
 Requires at least: 3.2.0
 Tested up to: 3.8.1
-Stable tag: 0.5
+Stable tag: 0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,7 +76,7 @@ Maybe. Make sure the call to `wp_footer();` function is at the very bottom in yo
 
 **Will comments or any other dynamic parts of my blog update immediately?**
 
-It depends on your configuration of Easy cache. There is an automatic cache expiration system, which runs through WordPress® behind-the-scene, according to your Cached file expires setting (see: `Settings -› Easy cache -› Cached file expires after` and `Settings -› Easy cache -› Rebuild cached file on page/post/comment update`). The default value of 5 minutes is suitable for most cases. If you don't update your site too often, you could set this to 240 minutes (which is 4 hours) or longer. The longer the cache expiration time is, the greater your performance gain. Alternatively, the shorter the expiration time, the fresher everything will remain on your site, but at cost of slowdowns.
+It depends on your configuration of Easy cache. There is an automatic cache expiration system, which runs through WordPress® behind-the-scene, according to your Cached file expires setting (see: `Settings -› Easy cache -› Cached file expires after` and `Settings -› Easy cache -› Rebuild cached file on page/post/comment update`). The default value of 30 minutes is suitable for most cases. If you don't update your site too often, you could set this to 240 minutes (which is 4 hours) or longer. The longer the cache expiration time is, the greater your performance gain. Alternatively, the shorter the expiration time, the fresher everything will remain on your site, but at cost of slowdowns.
 
 
 **Can I exclude given pages or posts from being cached?**
@@ -144,6 +144,10 @@ Well, the main purpose of caching mechanism is to save your visitors time and ba
 3. screenshot-3.gif
 
 == Changelog ==
+
+= 0.6 =
+
+-Improved HTML page compression
 
 = 0.5 =
 
