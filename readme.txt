@@ -1,5 +1,5 @@
 === bodi0`s Easy cache ===
-Contributors: Budiony Damyanov
+Contributors: budiony
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=LKG7EXVNPJ7EN&amp;currency_code=EUR
 Tags: advanced cache, benchmark, benchmarking, cache, caching, cash, debug, debugging, execution, generation, highly extensible, includes extensive documentation, loading, options panel included, performance, easy cache, easycache, speed, super cache, w3c validated code, websharks framework, wp-cache
 Requires at least: 3.2.0
