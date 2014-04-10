@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin`s caching variables settings
 Author: Budiony Damyanov
 Email: budiony@gmail.com
-Version: 0.6
+Version: 0.7
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)
@@ -37,6 +37,10 @@ $ignore_page: Marker, flag if the page should be excluded or not from caching;
 	$ignore_page = false; 
 	//DISABLE CACHING FOR LOGGED-IN USERS!
 	if (is_user_logged_in()) $ignore_page = true;
+	
+	//DISABLE CACHING FOR PASSWORD-PROTECTED POSTS/PAGES
+	if (post_password_required()) $ignore_page = true;
+	
 	//Get the web server protocol (non-empty value if the script was queried through the HTTPS protocol)
 	$server_protocol = (!empty($_SERVER['HTTPS'])) ? "https://" : "http://";
 	// Directory to cache files in, unique name based on sha1 hash of home URL (keep outside web root)

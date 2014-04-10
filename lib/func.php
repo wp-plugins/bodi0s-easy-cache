@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin`s library of some handy functions
 Author: bodi0
 Email: budiony@gmail.com
-Version: 0.6
+Version: 0.7
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)

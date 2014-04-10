@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_butt
 Tags: advanced cache, benchmark, benchmarking, cache, caching, cash, debug, debugging, execution, generation, highly extensible, includes extensive documentation, loading, options panel included, performance, easy cache, easycache, speed, super cache, w3c validated code, websharks framework, wp-cache
 Requires at least: 3.2.0
 Tested up to: 3.8.1
-Stable tag: 0.6
+Stable tag: 0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,7 @@ Speed up your blog with Easy Cache, bullet-proof and easy-to-use website caching
 Easy cache takes a real-time snapshot of every Page, Post, Category, Link, etc. These snapshots are then stored (cached) into folder of your choice, so they can be referenced and served to the visitor later, in order to save database processing time that has been slowing your website down.
 
 The Easy cache plugin uses configuration options that you select from the Administration panel. Search for `Easy cache` in your `Settings` page. 
-Easy cache excludes administrative or WP system login pages from caching (i.e. it works only on public part of your blog). Only **NOT**  logged-in users (which are the most) can benefit from caching mechanism when they visit the public part of your website.
+Easy cache excludes administrative or WP system login pages from caching (i.e. it works only on public part of your blog). Only **NOT**  logged-in users (which are the most) can benefit from caching mechanism when they visit the public part of your website. Password-protected pages or posts are excluded from caching too.
 
 There is an automatic cache expiration system, which runs through WordPress® behind-the-scene, according to your `Cached file expires after` setting, also various cache and server load statistics are available for precise tracking of what is going on.
 
@@ -144,6 +144,10 @@ Well, the main purpose of caching mechanism is to save your visitors time and ba
 3. screenshot-3.gif
 
 == Changelog ==
+
+= 0.7 =
+
+-Improved handling of password-protected posts/pages
 
 = 0.6 =
 
