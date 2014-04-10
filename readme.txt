@@ -147,7 +147,7 @@ Well, the main purpose of caching mechanism is to save your visitors time and ba
 
 = 0.7 =
 
--Improved handling of password-protected posts/pages
+-Improved handling of password-protected posts and pages
 
 = 0.6 =
 
