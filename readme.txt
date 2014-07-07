@@ -147,7 +147,7 @@ Well, the main purpose of caching mechanism is to save your visitors time and ba
 
 = 0.8 =
 
--Small bug fixes in administration panel when displaying excluded posts / pages. Now **future posts** are also visible.
+-Small bug fixes in administration panel when displaying excluded posts / pages.  Now **future posts** are also visible.
 
 = 0.7 =
 
