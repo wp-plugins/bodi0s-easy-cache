@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin`s caching buffer flush (write cache file)
 Author: Budiony Damyanov
 Email: budiony@gmail.com
-Version: 0.7
+Version: 0.8
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)

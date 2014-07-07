@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_butt
 Tags: advanced cache, benchmark, benchmarking, cache, caching, cash, debug, debugging, execution, generation, highly extensible, includes extensive documentation, loading, options panel included, performance, easy cache, easycache, speed, super cache, w3c validated code, websharks framework, wp-cache
 Requires at least: 3.2.0
 Tested up to: 3.8.1
-Stable tag: 0.7
+Stable tag: 0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -144,6 +144,10 @@ Well, the main purpose of caching mechanism is to save your visitors time and ba
 3. screenshot-3.gif
 
 == Changelog ==
+
+= 0.8 =
+
+-Small bug fixes in administration panel when displaying excluded posts / pages. Now **future posts** are also visible.
 
 = 0.7 =
 

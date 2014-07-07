@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin Name: bodi0`s Easy cache
 Plugin URI: http://wordpress.org/plugins/bodi0s-easy-cache/
 Description: Caches the pages/posts in your blog for improved performance.
-Version: 0.7
+Version: 0.8
 Text Domain: bodi0-easy-cache
 Domain Path: /languages
 Author: Budiony Damyanov

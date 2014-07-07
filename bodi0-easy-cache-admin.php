@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) or exit();
 Plugin`s Administration panel
 Author: Budiony Damyanov
 Email: budiony@gmail.com
-Version: 0.7
+Version: 0.8
 License: GPL2
 
 		Copyright 2014  bodi0  (email : budiony@gmail.com)
@@ -459,7 +459,7 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
 				'number' => '',
 				'offset' => 0,
 				'post_type' => 'page',
-				'post_status' => array('publish', 'private')
+				'post_status' => array('publish', 'private', 'future')
 			); 
 			
 			
@@ -495,7 +495,7 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
         <div style="height: auto;max-height: 400px;min-height: 40px;overflow: scroll;width: 400px;">
 					<?php
 					$args_posts = array(
-					'posts_per_page'   => '',
+					'posts_per_page'   => -1,
 					'offset'           => 0,
 					'category'         => '',
 					'orderby'          => 'post_title',
@@ -507,12 +507,12 @@ textarea{font-family:"Courier New", Courier, monospace;font-size:12px;}
 					'post_type'        => 'post',
 					'post_mime_type'   => '',
 					'post_parent'      => '',
-					'post_status'      => array('publish','private'),
+					'post_status'      => array('publish','private','future'),
 					'suppress_filters' => true );
 				//Get posts
 				$posts = get_posts( $args_posts );
-				
-				//Get excluded pages from options (if any) and covert them to array
+								
+				//Get excluded posts from options (if any) and covert them to array
 				$checked = '';
 				foreach ( $posts as $post ) {
 					//If page is excluded then check it...
