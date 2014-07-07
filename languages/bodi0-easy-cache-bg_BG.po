@@ -1,0 +1,602 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: bodi0 easy cache\n"
+"POT-Creation-Date: 2014-03-13 12:14+0200\n"
+"PO-Revision-Date: 2014-03-13 12:17+0200\n"
+"Last-Translator: Budyoni Damyanov <budiony@gmail.com>\n"
+"Language-Team: \n"
+"Language: bg\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../bodi0-easy-cache-admin.php:105
+msgid "The settings"
+msgstr "Настройките"
+
+#: ../bodi0-easy-cache-admin.php:106
+msgid "were saved"
+msgstr " бяха запазени"
+
+#: ../bodi0-easy-cache-admin.php:116
+msgid ""
+"Warning: Selected cache folder path cannot be created, it is not writable, "
+"choose another one, otherwise your blog will not function properly"
+msgstr ""
+"Внимание: избраната папка за кеш файловете не може да бъде създадена, "
+"изберете друга или блогът няма да функционира коректно"
+
+#: ../bodi0-easy-cache-admin.php:149
+msgid "Cached file associated with this page/post "
+msgstr "Кешираният файл, асоцииран с тази страница/публикация"
+
+#: ../bodi0-easy-cache-admin.php:150 ../bodi0-easy-cache-admin.php:232
+msgid " was deleted"
+msgstr " беше изтрит"
+
+#: ../bodi0-easy-cache-admin.php:158
+msgid "No associated cached file was found or cached file cannot be deleted"
+msgstr "Няма намерен асоцииран кеширан файл или той не може да бъде изтрит"
+
+#: ../bodi0-easy-cache-admin.php:199
+msgid "All cached files "
+msgstr "Всички кеширани файлове"
+
+#: ../bodi0-easy-cache-admin.php:200
+msgid " were deleted"
+msgstr " бяха изтрити"
+
+#: ../bodi0-easy-cache-admin.php:208
+msgid "No cache files were found or cache files cannot be deleted"
+msgstr "Няма намерени кеш файлове или кеш файловете не могат да бъдат изтрити"
+
+#: ../bodi0-easy-cache-admin.php:231 ../bodi0-easy-cache-admin.php:242
+msgid "Minified and combined CSS file "
+msgstr "Минимизиран и комбиниран CSS"
+
+#: ../bodi0-easy-cache-admin.php:233
+msgid ""
+"If you want to re-create it, fill the corresponding textarea with URL of CSS "
+"files and save settings."
+msgstr ""
+"Ако искате да го създадете отново, попълнете прилежащото текстово поле с URL "
+"на CSS файла и запазете настройките."
+
+#: ../bodi0-easy-cache-admin.php:234 ../bodi0-easy-cache-admin.php:312
+#: ../bodi0-easy-cache-admin.php:313 ../bodi0-easy-cache-admin.php:558
+msgid "Important"
+msgstr "Важно"
+
+#: ../bodi0-easy-cache-admin.php:235
+msgid ""
+"Keep in mind, that generated cached files *may* include the currently "
+"deleted CSS file, you have to re-build those files or re-create the CSS file."
+msgstr ""
+"Не забравяте, че генерираните вече кеш файлове *може* да включват току-що "
+"изтрития CSS файл, трябва да регенерирате тези файлове или да регенерирате "
+"CSS файла."
+
+#: ../bodi0-easy-cache-admin.php:243
+msgid " cannot be found or cannot be deleted."
+msgstr " не може да бъде намерен или не може да бъде изтрит."
+
+#: ../bodi0-easy-cache-admin.php:272
+msgid "The default settings "
+msgstr "Настройките по подразбиране"
+
+#: ../bodi0-easy-cache-admin.php:273
+msgid " were restored"
+msgstr " бяха възстановени"
+
+#: ../bodi0-easy-cache-admin.php:297
+msgid "Easy cache [Administration]"
+msgstr "Easy cache [Администрация]"
+
+#: ../bodi0-easy-cache-admin.php:300
+msgid ""
+"Speed up your website by setting the parameters for the caching mechanism."
+msgstr "Ускорете уеб сайта си с настройките на механизма за кеширане."
+
+#: ../bodi0-easy-cache-admin.php:302
+msgid ""
+"The plug-in creates in selected cache folder cache file for every requested "
+"page, according to the caching parameters."
+msgstr ""
+"Плъгинът създава кеш файл за всяка страница или публикация в избраната кеш "
+"папка, в зависимост от параметрите."
+
+#: ../bodi0-easy-cache-admin.php:304
+msgid ""
+"Make sure that all links, everywhere in your blog are absolute, not relative "
+"(including URL for backgrounds), according RFC 2396."
+msgstr ""
+"Уверете се, че всички линкове, навсякъде в сайта ви са абсолютни, не "
+"релативни (вкл. и линковете за фоновите изображения), съгласно RFC 2396."
+
+#: ../bodi0-easy-cache-admin.php:307
+msgid ""
+"Search queries or individual pages and posts can be excluded from caching."
+msgstr ""
+"Заявките за търсене или индивидуалните страници и публикации могат да бъдат "
+"изключени от кеширането."
+
+#: ../bodi0-easy-cache-admin.php:308
+msgid ""
+"The cached files are automatically  updated/deleted when pages/posts are "
+"updated (including when a comment is added or updated, which causes the "
+"comment count for the post to update) or deleted permanently."
+msgstr ""
+"Кешираните файлове автоматично се обновяват/изтриват когато страници/"
+"публикации са обновени (включително когато се добавя или обновява коментар, "
+"което предизвиква всъщност обновяването на броя на коментарите към "
+"страницата/публикацията) или изтрити перманентно."
+
+#: ../bodi0-easy-cache-admin.php:312
+msgid ""
+"Make sure the call to <code>wp_footer();</code> function is at the very "
+"bottom in your theme`s <code>footer.php</code> file, right before closing "
+"<code>< /body></code> tag. Otherwise contents after <code>wp_footer();</"
+"code> may be not included in generated cache file."
+msgstr ""
+"Уверете се, че извикването на функцията <code>wp_footer();</code> е в самия "
+"край на файла от темата <code>footer.php</code>, точно преди затварящия таг "
+"<code>< /body></code>. В противен случай съдържанието след <code>wp_footer();"
+"</code> би могло да не бъде включено в генерирания кеш файл."
+
+#: ../bodi0-easy-cache-admin.php:313
+msgid ""
+"Remember to log out or use different browser if you want to test if caching "
+"mechanism is working, only not logged-in users can benefit from caching."
+msgstr ""
+"Не забравяйте да излезете от профила или да използвате друг браузър ако "
+"искате да тествате дали кеширането работи, само нерегистрираните потребители "
+"могат да се ползват от това. "
+
+#: ../bodi0-easy-cache-admin.php:320
+msgid ""
+"Warning: Caching is disabled, your blog will display non-cached pages to "
+"users"
+msgstr ""
+"Внимание: Кеширането е изключено, блогът ви ще показва нормални страници на "
+"потребителите"
+
+#: ../bodi0-easy-cache-admin.php:326
+msgid "Parameters"
+msgstr "Параметри"
+
+#: ../bodi0-easy-cache-admin.php:330
+msgid "Enable caching"
+msgstr "Включване на кеширането"
+
+#: ../bodi0-easy-cache-admin.php:331
+msgid "Select to enable or disable caching mechanism globally in your website."
+msgstr ""
+"Изберете, за да разрешите или забраните кеширащия механизъм глобално в блога."
+
+#: ../bodi0-easy-cache-admin.php:342 ../bodi0-easy-cache-admin.php:385
+#: ../bodi0-easy-cache-admin.php:417 ../bodi0-easy-cache-admin.php:439
+#: ../bodi0-easy-cache-admin.php:642
+msgid "Yes"
+msgstr "Да"
+
+#: ../bodi0-easy-cache-admin.php:345 ../bodi0-easy-cache-admin.php:388
+#: ../bodi0-easy-cache-admin.php:420 ../bodi0-easy-cache-admin.php:442
+#: ../bodi0-easy-cache-admin.php:645
+msgid "No"
+msgstr "Не"
+
+#: ../bodi0-easy-cache-admin.php:350
+msgid "Cache folder path"
+msgstr "Път до папката с кеша"
+
+#: ../bodi0-easy-cache-admin.php:352
+msgid ""
+"Make sure that folder path exists and is writable, i.e. the permissions are "
+"755 or higher."
+msgstr ""
+"Уверете се, че папката съществува и може да се записва в нея, т.е. правата "
+"трябва да са 755 или по-високи."
+
+#: ../bodi0-easy-cache-admin.php:354
+msgid ""
+"The default value is sub-folder, named < cached > inside the default "
+"WordPress 'uploads' folder. Leave this field empty for restoring the default "
+"path."
+msgstr ""
+"Стойността по подразбиране е подпапка, наречена < cached > в папката за "
+"качване по подразбиране на WordPress 'uploads'. Оставете това поле празно, "
+"за да възстановите пътя по подразбиране."
+
+#: ../bodi0-easy-cache-admin.php:361
+msgid "Cached file expires after"
+msgstr "Кешираният файл изтича след"
+
+#: ../bodi0-easy-cache-admin.php:363
+msgid "Value in minutes, integers only, greater than zero"
+msgstr "Стойност в минути, само цяло число, по-голямо от нула"
+
+#: ../bodi0-easy-cache-admin.php:364 ../bodi0-easy-cache-admin.php:396
+msgid "1 hour=60, 1 day=1440, 1 week=10080."
+msgstr "1 час=60, 1 ден=1440, 1 седмица=10080."
+
+#: ../bodi0-easy-cache-admin.php:370
+msgid "Exclude search queries from caching"
+msgstr "Изключване на търсещите заявки от кеширане"
+
+#: ../bodi0-easy-cache-admin.php:372
+msgid ""
+"Select to exclude or not from caching all search results in your web site. "
+"It will be useful to set this option to 'No' if you have huge amount of "
+"traffic, generated by searches in order to speed-up page/post display."
+msgstr ""
+"Изберете, за да изключите или не от кеширането резултатите от търсене в уеб "
+"сайта си. Би било полезно да изберете 'Не' ако имате огромен трафик, "
+"генериран от търсения с цел ускоряване на визуализацията на страниците/"
+"постовете. "
+
+#: ../bodi0-easy-cache-admin.php:394
+msgid "Search queries cache expire after"
+msgstr "Изтичане на кеша при резултатите от търсене"
+
+#: ../bodi0-easy-cache-admin.php:395
+msgid ""
+"Choose search results cache timeout (if search queries are not excluded from "
+"caching), in minutes, integers only, select value for the timeout lower than "
+"global cache expire time if you prefer to have fresher information in "
+"searches"
+msgstr ""
+"Изберете времето за изтичане на кеша за резултатите от търсене (ако те не са "
+"изключени от кеширането), в минути, цяло число, изберете стойност по-малка "
+"от глобалното време за изтичане на кеша ако искате да имате по-свежа "
+"информация при търсенията"
+
+#: ../bodi0-easy-cache-admin.php:405
+msgid "Minify saved cache file"
+msgstr "Минимизиране на кеш файла"
+
+#: ../bodi0-easy-cache-admin.php:406
+msgid ""
+"Select to optimize saved cache file on disk for further performance "
+"improvement by striping extra spaces, new lines, tabs, etc., on average "
+"minification reduces the cache file size within 6 to 12%, depending on how "
+"formatted is the HTML content of non-cached file."
+msgstr ""
+"Изберете, за да оптимизирате запазения на диска кеш файл за допълнително "
+"ускоряване на производителността, премахват се излишните интервали, нови "
+"редове от сорса и т.н., средно този процес осигурява редуциране на размера "
+"на кеш файла между 6 и 12%, в зависимост от форматирането на HTML "
+"съдържанието на некеширания файл."
+
+#: ../bodi0-easy-cache-admin.php:427
+msgid "Rebuild cached file on page/post/comment update"
+msgstr ""
+"Пресъздай кеширания файл при обновяване на страница/публикация/коментар"
+
+#: ../bodi0-easy-cache-admin.php:428
+msgid ""
+"Select to automatically recreate cached file on disk when post or page has "
+"been modified (including when a comment is added or updated, which causes "
+"the comment count for the page/post to update), useful if you do not want "
+"your website visitors to wait for cache to expire to get the latest page/"
+"post/comments changes."
+msgstr ""
+"Изберете, за да бъде автоматично създаден кеширащ файл на диска, когато "
+"страница или публикация са модифицирани (включително когато се добавя или "
+"обновява коментар, което предизвиква всъщност обновяването на броя на "
+"коментарите към страницата/публикацията), опцията е полезна ако не искате "
+"потребителите да чакат кешът да изтече, за да видят последните промени по "
+"страниците/публикациите/коментарите."
+
+#: ../bodi0-easy-cache-admin.php:449
+msgid "Exclude pages/posts from caching"
+msgstr "Изключване на страници/публикации от кеширането"
+
+#: ../bodi0-easy-cache-admin.php:451
+msgid ""
+"Select pages or posts from published ones, which you don`t want to be "
+"cached, sorted by title, private pages or posts are also in this list. "
+"Excluding posts/pages is useful when you have registration form or any other "
+"specific (custom) search form implemented on these posts/pages."
+msgstr ""
+"Изберете страници или публикации от вече издадените, които не искате да "
+"бъдат кеширани, сортирани по заглавие, скритите страници и публикации също "
+"са в този списък. Изключването би било полезно когато имате регистрационна "
+"форма или каквато и да е друга модифицирана (специфична) форма, намираща се "
+"на тези страници."
+
+#: ../bodi0-easy-cache-admin.php:452
+msgid ""
+"You can delete associated with given post/page cached file by clicking on "
+"the red X"
+msgstr ""
+"Можете да изтриете асоциирания с дадена публикация/страница кеширан файл "
+"като кликнете на червения Х"
+
+#: ../bodi0-easy-cache-admin.php:456
+msgid "Pages"
+msgstr "Страници"
+
+#: ../bodi0-easy-cache-admin.php:493 ../bodi0-easy-cache-admin.php:537
+msgid "Delete associated cached file"
+msgstr "Изтриване на асоциирания кеширан файл"
+
+#: ../bodi0-easy-cache-admin.php:507
+msgid "Posts"
+msgstr "Публикации"
+
+#: ../bodi0-easy-cache-admin.php:553
+msgid "Minify and combine CSS files"
+msgstr "Минимизиране и комбиниране на CSS"
+
+#: ../bodi0-easy-cache-admin.php:554
+msgid ""
+"Insert absolute URL (valid URL according RFC 2396) of CSS files in sequence "
+"of their appearance in non-cached page for minification and combination. "
+"This process will reduce the number and size of HTTP requests to your "
+"server. The CSS files will be merged as single cached CSS resource file, "
+"named<code>_css.min.css</code> and saved in your current theme's folder."
+msgstr ""
+"Въведете абсолютен URL (по документацията RFC 2396) на CSS файловете в "
+"последователност както при некешираната страница за обединяване и "
+"минимизиране. Този процес ще намали броя и размера на HTTP заявките към "
+"вашия сървър. CSS файловете ще бъдат обединени в един ресурсен файл с име "
+"<code>_css.min.css</code> и запазен в папката на текущата ви тема."
+
+#: ../bodi0-easy-cache-admin.php:557
+msgid ""
+"This file will be included in every cached file, old links will be removed."
+msgstr ""
+"Този файл ще бъде включен във всеки генериран кеширан файл, старите линкове "
+"ще бъдат премахнати."
+
+#: ../bodi0-easy-cache-admin.php:559
+msgid ""
+"Make sure that any URL inside the original CSS code is abosulte, not "
+"relative (otherwise you will have missing backgrounds).  Also make sure you "
+"type the URL of files you want to combine and minify exactly as it is in "
+"your original page / post (for example some stylesheets links may have "
+"dynamic content attached to them, like: <u>http://www.example.com/color.php?"
+"ver=1.2</u>), otherwise minification and combination will not work "
+"correctly. If you modify the original CSS files, remember to save settings "
+"here in order to re-generate cached CSS resource file."
+msgstr ""
+"Уверете се, че всеки URL вътре в оригиналния CSS код е абсолютен, не "
+"релативен (в противен случай ще ви липсват фоновите картинки). Също се "
+"уверете, че въвеждате URL на файловете точно както са в оригиналната "
+"страница / публикация (напр. има CSS линкове, които имат динамично "
+"съдържание, като: <u>http://www.example.com/color.php?ver=1.2</u>), иначе "
+"минимизирането и комбинирането няма да работи. Ако промените оригиналните "
+"файлове не забравяйте да запазите настройките тук, с цел регенериране на "
+"кеширания ресурсен CSS. "
+
+#: ../bodi0-easy-cache-admin.php:569
+msgid "URL of CSS files, one per line"
+msgstr "URL на CSS файловете, по един на ред"
+
+#: ../bodi0-easy-cache-admin.php:569
+msgid "duplicates will be removed"
+msgstr "дубликатите ще бъдат махнати"
+
+#: ../bodi0-easy-cache-admin.php:614
+msgid ""
+"The <code>allow_url_fopen</code> variable is set to <code>Off</code> in your "
+"<code>php.ini</code> configuration, no CSS minification and combination is "
+"possible. Contact your hosting company or web server administrator for "
+"details how this can be changed."
+msgstr ""
+"Опцията <code>allow_url_fopen</code> е настроена на <code>Off</code>във "
+"вашата <code>php.ini</code> конфигурация, CSS минимизирането и комбинирането "
+"не е възможно. Свържете се хостинг компанията си или администратора на уеб "
+"сървъра, за да разберете как и дали това може да бъде променено."
+
+#: ../bodi0-easy-cache-admin.php:622
+msgid "Do not cache mobile pages/posts"
+msgstr "Без кеширане на мобилните страници/публикации"
+
+#: ../bodi0-easy-cache-admin.php:623
+msgid ""
+"Select to skip caching of pages/posts, generated by Jetpack by WordPress.com "
+"mobile theme, highly recommended to set this to 'Yes', otherwise your "
+"website visitors may see a mix of the mobile pages/posts and desktop pages/"
+"posts. Skipping the caching mechanism for mobile version of your website is "
+"necessary, because the Jetpack module by WordPress.com provides his own "
+"caching procedure."
+msgstr ""
+"Изберете, за да пропуснете кеширането на страниците/публикациите, генерирани "
+"от мобилната тема Jetpack на WordPress.com, препоръчително е да изберете "
+"'Да', в противен случай посетителите на сайта ви ще виждат смесица от "
+"мобилни и десктоп страници. Пропускането на кеширането за мобилната версия "
+"на сайта ви е нужно, защото модула Jetpack на WordPress.com предлага "
+"собствен механизъм за това."
+
+#: ../bodi0-easy-cache-admin.php:628
+msgid "Jetpack module by WordPress.com is Not Available"
+msgstr "Модулът Jetpack module на WordPress.com не е наличен"
+
+#: ../bodi0-easy-cache-admin.php:658
+msgid "Save settings"
+msgstr "Запазване на настройките"
+
+#: ../bodi0-easy-cache-admin.php:659
+msgid "Reset"
+msgstr "Отмяна"
+
+#: ../bodi0-easy-cache-admin.php:660
+msgid "Restore default settings"
+msgstr "Възстанови настройките"
+
+#: ../bodi0-easy-cache-admin.php:722
+msgid "bytes"
+msgstr "bytes"
+
+#: ../bodi0-easy-cache-admin.php:725 ../bodi0-easy-cache-admin.php:843
+#: ../bodi0-easy-cache-admin.php:868 ../bodi0-easy-cache-admin.php:869
+#: ../bodi0-easy-cache-admin.php:870
+msgid "KiB"
+msgstr "KiB"
+
+#: ../bodi0-easy-cache-admin.php:728
+msgid "MiB"
+msgstr "MiB"
+
+#: ../bodi0-easy-cache-admin.php:731
+msgid "GiB"
+msgstr "GiB"
+
+#: ../bodi0-easy-cache-admin.php:735 ../bodi0-easy-cache-admin.php:752
+#: ../bodi0-easy-cache-admin.php:769
+msgid "sec"
+msgstr "сек"
+
+#: ../bodi0-easy-cache-admin.php:738 ../bodi0-easy-cache-admin.php:755
+#: ../bodi0-easy-cache-admin.php:772
+msgid "min"
+msgstr "мин"
+
+#: ../bodi0-easy-cache-admin.php:741 ../bodi0-easy-cache-admin.php:758
+#: ../bodi0-easy-cache-admin.php:775
+msgid "h"
+msgstr "ч"
+
+#: ../bodi0-easy-cache-admin.php:744 ../bodi0-easy-cache-admin.php:761
+#: ../bodi0-easy-cache-admin.php:778
+msgid "d"
+msgstr "д"
+
+#: ../bodi0-easy-cache-admin.php:747 ../bodi0-easy-cache-admin.php:764
+#: ../bodi0-easy-cache-admin.php:781
+msgid "w"
+msgstr "седм."
+
+#: ../bodi0-easy-cache-admin.php:788
+msgid "Refresh statistics"
+msgstr "Опресняване на статистиката"
+
+#: ../bodi0-easy-cache-admin.php:792
+msgid "Statistics"
+msgstr "Статистика"
+
+#: ../bodi0-easy-cache-admin.php:796
+msgid "Average Web Server load"
+msgstr "Средно натоварване на сървъра"
+
+#: ../bodi0-easy-cache-admin.php:797
+msgid ""
+"These values represents the current system software, average system load in "
+"the last 1, 5 and 15 minutes, also memory usage (current and peak)."
+msgstr ""
+"Тези стойности показват текущите версии на софтуера, средното натоварване на "
+"системата за послените 1, 5 и 15 минути, също и заделената оперативна памет "
+"(текуща и максимална)."
+
+#: ../bodi0-easy-cache-admin.php:798
+msgid "Values above 80 means that your web server is overloaded."
+msgstr "Нива над 80 означават, че сървъра е претоварен."
+
+#: ../bodi0-easy-cache-admin.php:811
+msgid "N/A"
+msgstr "Няма данни"
+
+#: ../bodi0-easy-cache-admin.php:822
+msgid "Number of cache files found"
+msgstr "Брой намерени кеш файлове"
+
+#: ../bodi0-easy-cache-admin.php:823
+msgid "(including cached searches and custom pages)"
+msgstr "(вкл. кешираните търсения и поръчковите страници)"
+
+#: ../bodi0-easy-cache-admin.php:824
+msgid "Files are inside cached folder"
+msgstr "Файловете са в папка "
+
+#: ../bodi0-easy-cache-admin.php:830
+msgid "Minified and combined CSS file"
+msgstr "Минимизиран и комбиниран CSS файл"
+
+#: ../bodi0-easy-cache-admin.php:831
+msgid "Details about size of minified and combined CSS file, in folder: "
+msgstr "Детайли за размера на минимизирания и комбиниран CSS файл, в папка:"
+
+#: ../bodi0-easy-cache-admin.php:843
+msgid " created on "
+msgstr " създаден на "
+
+#: ../bodi0-easy-cache-admin.php:846
+msgid "Not Available"
+msgstr "Функцията не е налична"
+
+#: ../bodi0-easy-cache-admin.php:851
+msgid "Cache files age (min/max/avg)"
+msgstr "Възраст на кеш файловете (мин/макс/средна)"
+
+#: ../bodi0-easy-cache-admin.php:852
+msgid "Displays freshness of the cached files."
+msgstr "Показва колко пресни са кешираните файлове."
+
+#: ../bodi0-easy-cache-admin.php:864
+msgid "Cache files size (min/max/avg)"
+msgstr "Размер на кеш файловете (мин/макс/среден)"
+
+#: ../bodi0-easy-cache-admin.php:865
+msgid "Displays smallest, largest and averaged size of saved cached files."
+msgstr ""
+"Показва най-малкия, най-големия и средния размер на кешираните файлове."
+
+#: ../bodi0-easy-cache-admin.php:874
+msgid "Total space occupied by cache files"
+msgstr "Общо място, заето от кеш файловете"
+
+#: ../bodi0-easy-cache-admin.php:887
+msgid "Delete all cached files"
+msgstr "Изтриване на кешираните файлове"
+
+#: ../bodi0-easy-cache-admin.php:890
+msgid "Delete combined and minified CSS file"
+msgstr "Изтриване на комбинирания CSS файл"
+
+#: ../bodi0-easy-cache-admin.php:901
+msgid "If you find this plugin useful, I wont mind if you buy me a beer"
+msgstr ""
+"Ако смятате, че този плъгин ви е бил полезен, не бих имал против ако ме "
+"почерпите с бира"
+
+#: ../bodi0-easy-cache.php:144
+msgid "Easy cache"
+msgstr "Easy cache"
+
+#: ../bodi0-easy-cache.php:156
+msgid "Administration"
+msgstr "Администрация"
+
+#~ msgid "Important:"
+#~ msgstr "Важно:"
+
+#~ msgid "Important: "
+#~ msgstr "Важно:"
+
+#~ msgid "Kibytes"
+#~ msgstr "Kibytes"
+
+#~ msgid "Mibytes"
+#~ msgstr "Mibytes"
+
+#~ msgid "Gibytes"
+#~ msgstr "Gibytes"
+
+#~ msgid ""
+#~ "Warning: cached file for this page/post could not be deleted "
+#~ "automatically. You may want to remove it manually from folder "
+#~ msgstr ""
+#~ "Внимание: кешираният файл за тази страница/публикация не може да бъде "
+#~ "изтрит автоматично. Ще е необходимо ръчно премахване от папката"
+
+#~ msgid "How long to keep cache file (in minutes)"
+#~ msgstr "How long to keep cache file (in minutes)"
+
+#~ msgid "Type here..."
+#~ msgstr "Type here..."

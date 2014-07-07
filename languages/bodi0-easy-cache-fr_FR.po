@@ -1,0 +1,611 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: bodi0 easy cache\n"
+"POT-Creation-Date: 2014-03-13 12:19+0200\n"
+"PO-Revision-Date: 2014-03-13 12:21+0200\n"
+"Last-Translator: Budyoni Damyanov <budiony@gmail.com>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../bodi0-easy-cache-admin.php:105
+msgid "The settings"
+msgstr "Les réglages"
+
+#: ../bodi0-easy-cache-admin.php:106
+msgid "were saved"
+msgstr "ont été sauvegardé"
+
+#: ../bodi0-easy-cache-admin.php:116
+msgid ""
+"Warning: Selected cache folder path cannot be created, it is not writable, "
+"choose another one, otherwise your blog will not function properly"
+msgstr ""
+"Attention: le répertoire sélectionné pour le cache n'a pas pu être créé, "
+"assurez-vous des droits du chelmin ou choisissez en un autre, sans quoi "
+"votre blog ne fonctionnera pas convenablement"
+
+#: ../bodi0-easy-cache-admin.php:149
+msgid "Cached file associated with this page/post "
+msgstr "Fichier mis en cache associé à cette page/article"
+
+#: ../bodi0-easy-cache-admin.php:150 ../bodi0-easy-cache-admin.php:232
+msgid " was deleted"
+msgstr "a été supprimé"
+
+#: ../bodi0-easy-cache-admin.php:158
+msgid "No associated cached file was found or cached file cannot be deleted"
+msgstr ""
+"Aucun fichier de cache associé ne peut pas être trouvé ou ne peut pas être "
+"supprimé"
+
+#: ../bodi0-easy-cache-admin.php:199
+msgid "All cached files "
+msgstr "Tous les fichiers en cache"
+
+#: ../bodi0-easy-cache-admin.php:200
+msgid " were deleted"
+msgstr "ont été supprimés"
+
+#: ../bodi0-easy-cache-admin.php:208
+msgid "No cache files were found or cache files cannot be deleted"
+msgstr ""
+"Aucun fichier trouvé dans le cache ou les fichiers en cache n'ont pas pu "
+"être supprimés"
+
+#: ../bodi0-easy-cache-admin.php:231 ../bodi0-easy-cache-admin.php:242
+msgid "Minified and combined CSS file "
+msgstr "Fichier CSS optimisé et fusionné"
+
+#: ../bodi0-easy-cache-admin.php:233
+msgid ""
+"If you want to re-create it, fill the corresponding textarea with URL of CSS "
+"files and save settings."
+msgstr ""
+"Si vous voulez le recréer, entrez les URL des fichiers CSS dans la zone "
+"correspondante et sauvegardez."
+
+#: ../bodi0-easy-cache-admin.php:234 ../bodi0-easy-cache-admin.php:312
+#: ../bodi0-easy-cache-admin.php:313 ../bodi0-easy-cache-admin.php:558
+msgid "Important"
+msgstr "Important"
+
+#: ../bodi0-easy-cache-admin.php:235
+msgid ""
+"Keep in mind, that generated cached files *may* include the currently "
+"deleted CSS file, you have to re-build those files or re-create the CSS file."
+msgstr ""
+"Gardez à l'esprit que des pages mises en cache peuvent avoir été construites "
+"avec un fichier CSS maintenant supprimé. Vous pouvez reconstruire ces pages "
+"ou restaurer le fichier CSS d'origine."
+
+#: ../bodi0-easy-cache-admin.php:243
+msgid " cannot be found or cannot be deleted."
+msgstr " n'a pu être trouvé ou n'a pu être supprimé."
+
+#: ../bodi0-easy-cache-admin.php:272
+msgid "The default settings "
+msgstr "Les réglages par défaut"
+
+#: ../bodi0-easy-cache-admin.php:273
+msgid " were restored"
+msgstr " ont été restaurés"
+
+#: ../bodi0-easy-cache-admin.php:297
+msgid "Easy cache [Administration]"
+msgstr "Easy cache [Administration]"
+
+#: ../bodi0-easy-cache-admin.php:300
+msgid ""
+"Speed up your website by setting the parameters for the caching mechanism."
+msgstr ""
+"Accélerez votre site en réglant les paramètres du mécanime de mise en cache."
+
+#: ../bodi0-easy-cache-admin.php:302
+msgid ""
+"The plug-in creates in selected cache folder cache file for every requested "
+"page, according to the caching parameters."
+msgstr ""
+"Pour chaque requête, le plugin génère la page correspondante dans le "
+"répertoire désigné dans les paramètres du cache."
+
+#: ../bodi0-easy-cache-admin.php:304
+msgid ""
+"Make sure that all links, everywhere in your blog are absolute, not relative "
+"(including URL for backgrounds), according RFC 2396."
+msgstr ""
+"Assurez-vous que tous les liens, partout dans votre blog sont absolue et non "
+"relative (y compris les URL pour les fonds), selon la RFC 2396."
+
+#: ../bodi0-easy-cache-admin.php:307
+msgid ""
+"Search queries or individual pages and posts can be excluded from caching."
+msgstr ""
+"Des requêtes de recherche ou des pages & articles peuvent être exclues "
+"individuellement du système de cache."
+
+#: ../bodi0-easy-cache-admin.php:308
+msgid ""
+"The cached files are automatically  updated/deleted when pages/posts are "
+"updated (including when a comment is added or updated, which causes the "
+"comment count for the post to update) or deleted permanently."
+msgstr ""
+"Les fichiers mis en cache sont automatiquement mis à jour lorsque les pages "
+"& articles correspondant sont modifiés ou supprimés (Y compris lorsqu'un "
+"commentaire est ajouté ou supprimé, ce qui met à jour le décompte pour "
+"l'article considéré)."
+
+#: ../bodi0-easy-cache-admin.php:312
+msgid ""
+"Make sure the call to <code>wp_footer();</code> function is at the very "
+"bottom in your theme`s <code>footer.php</code> file, right before closing "
+"<code>< /body></code> tag. Otherwise contents after <code>wp_footer();</"
+"code> may be not included in generated cache file."
+msgstr ""
+"Assurez vous que l'appel à la fonction <code>wp_footer();</code> est la "
+"dernière instruction du fichier <code>footer.php</code> de votre thème, "
+"juste avant le tag de fermeture <code>< /body></code>. Sans cela, tout le "
+"contenu qui vient après <code>wp_footer();</code> ne serait pas inclus dans "
+"le fichier généré pour la mise en cache."
+
+#: ../bodi0-easy-cache-admin.php:313
+msgid ""
+"Remember to log out or use different browser if you want to test if caching "
+"mechanism is working, only not logged-in users can benefit from caching."
+msgstr ""
+"Pensez à vous délogguer (ou utiliser un deuxième navigateur en parallèle) "
+"pour tester le fonctionnement du caching. Celui-ci n'est pas actif pour les "
+"utilisateurs loggués."
+
+#: ../bodi0-easy-cache-admin.php:320
+msgid ""
+"Warning: Caching is disabled, your blog will display non-cached pages to "
+"users"
+msgstr ""
+"Attention: La mise en cache est désactivé, votre blog sera afficher les "
+"pages non mises en cache pour les utilisateurs"
+
+#: ../bodi0-easy-cache-admin.php:326
+msgid "Parameters"
+msgstr "Paramètres"
+
+#: ../bodi0-easy-cache-admin.php:330
+msgid "Enable caching"
+msgstr "Activer le cache"
+
+#: ../bodi0-easy-cache-admin.php:331
+msgid "Select to enable or disable caching mechanism globally in your website."
+msgstr "Cocher pour activer ou désactiver le caching pour l'ensemble du site."
+
+#: ../bodi0-easy-cache-admin.php:342 ../bodi0-easy-cache-admin.php:385
+#: ../bodi0-easy-cache-admin.php:417 ../bodi0-easy-cache-admin.php:439
+#: ../bodi0-easy-cache-admin.php:642
+msgid "Yes"
+msgstr "Oui"
+
+#: ../bodi0-easy-cache-admin.php:345 ../bodi0-easy-cache-admin.php:388
+#: ../bodi0-easy-cache-admin.php:420 ../bodi0-easy-cache-admin.php:442
+#: ../bodi0-easy-cache-admin.php:645
+msgid "No"
+msgstr "Non"
+
+#: ../bodi0-easy-cache-admin.php:350
+msgid "Cache folder path"
+msgstr "Le chemin du dossier de cache"
+
+#: ../bodi0-easy-cache-admin.php:352
+msgid ""
+"Make sure that folder path exists and is writable, i.e. the permissions are "
+"755 or higher."
+msgstr ""
+"Assurez vous que le répertoire existe et dispose des permissions en écriture "
+"(cad 755 ou plus)."
+
+#: ../bodi0-easy-cache-admin.php:354
+msgid ""
+"The default value is sub-folder, named < cached > inside the default "
+"WordPress 'uploads' folder. Leave this field empty for restoring the default "
+"path."
+msgstr ""
+"La valeur par défaut du répertoire est < cached > sous le répertoire "
+"WordPress standard 'uploads'. Laissez cette zone vide pour utiliser le "
+"chemin par défaut."
+
+#: ../bodi0-easy-cache-admin.php:361
+msgid "Cached file expires after"
+msgstr "Expiration des fichiers cachés après"
+
+#: ../bodi0-easy-cache-admin.php:363
+msgid "Value in minutes, integers only, greater than zero"
+msgstr "Valeur en minutes, entiers supérieurs à zéro uniquement"
+
+#: ../bodi0-easy-cache-admin.php:364 ../bodi0-easy-cache-admin.php:396
+msgid "1 hour=60, 1 day=1440, 1 week=10080."
+msgstr "1 heure = 60, 1 jour = 1 440, 1 semaine = 10080."
+
+#: ../bodi0-easy-cache-admin.php:370
+msgid "Exclude search queries from caching"
+msgstr "Exclure les résultats des requêtes de recherche de la mise en cache"
+
+#: ../bodi0-easy-cache-admin.php:372
+msgid ""
+"Select to exclude or not from caching all search results in your web site. "
+"It will be useful to set this option to 'No' if you have huge amount of "
+"traffic, generated by searches in order to speed-up page/post display."
+msgstr ""
+"Choisir pour exclure ou non de mettre en cache tous les résultats de "
+"recherches sur le site. Choisir 'Non' si vous avez beaucoup de trafic "
+"résultant de recherches identiques répétitives."
+
+#: ../bodi0-easy-cache-admin.php:394
+msgid "Search queries cache expire after"
+msgstr "Cache des requêtes de recherche expire après"
+
+#: ../bodi0-easy-cache-admin.php:395
+msgid ""
+"Choose search results cache timeout (if search queries are not excluded from "
+"caching), in minutes, integers only, select value for the timeout lower than "
+"global cache expire time if you prefer to have fresher information in "
+"searches"
+msgstr ""
+"Choisir expiration de cache pour les résultats de recherche (si les requêtes "
+"de recherche ne sont pas exclus de la mise en cache), en minutes, nombres "
+"entiers uniquement, sélectionnez la valeur pour le délai d'attente inférieur "
+"à cache global expirent temps si vous préférez avoir plus fraîche "
+"informations dans les recherches"
+
+#: ../bodi0-easy-cache-admin.php:405
+msgid "Minify saved cache file"
+msgstr "Optimiser(Minify) fichiers en cache"
+
+#: ../bodi0-easy-cache-admin.php:406
+msgid ""
+"Select to optimize saved cache file on disk for further performance "
+"improvement by striping extra spaces, new lines, tabs, etc., on average "
+"minification reduces the cache file size within 6 to 12%, depending on how "
+"formatted is the HTML content of non-cached file."
+msgstr ""
+"Sélectionner pour optimiser la taille des fichiers en cache par l'élagage "
+"des espaces redondant, retours à lignes, tabulations, etc., en moyenne ce "
+"processus ('minification') réduit de 6 à 12% la taille des pages, selon le "
+"formatage HTML initial du fichier à traiter."
+
+#: ../bodi0-easy-cache-admin.php:427
+msgid "Rebuild cached file on page/post/comment update"
+msgstr ""
+"Reconstruire les fichiers en cache des pages/articles/commentaires mises-à-"
+"jour"
+
+#: ../bodi0-easy-cache-admin.php:428
+msgid ""
+"Select to automatically recreate cached file on disk when post or page has "
+"been modified (including when a comment is added or updated, which causes "
+"the comment count for the page/post to update), useful if you do not want "
+"your website visitors to wait for cache to expire to get the latest page/"
+"post/comments changes."
+msgstr ""
+"Sélctionner pour reconstruire les pages en cache de façon automatique sur "
+"mise-à-jour de pages/articles (Y compris lorsqu'un commentaire est modifié "
+"ou ajouté, mettant ainsi à jour le décompte des commentaires). Utile si vous "
+"souhaitez une mise à jour en temps réel, sans attendre l'expiration des "
+"pages cachées sur timeout."
+
+#: ../bodi0-easy-cache-admin.php:449
+msgid "Exclude pages/posts from caching"
+msgstr "Pages/articles à exclure du caching"
+
+#: ../bodi0-easy-cache-admin.php:451
+msgid ""
+"Select pages or posts from published ones, which you don`t want to be "
+"cached, sorted by title, private pages or posts are also in this list. "
+"Excluding posts/pages is useful when you have registration form or any other "
+"specific (custom) search form implemented on these posts/pages."
+msgstr ""
+"Selectionnez dans la liste les pages que vous souhaitez exclure du caching "
+"(Liste ordonnée par titre et incluant les pages privées). Il peut être utile "
+"d'exclure des pages contenant des formulaires d'enregistrement ou autres "
+"formulaires de recherche spécifiques."
+
+#: ../bodi0-easy-cache-admin.php:452
+msgid ""
+"You can delete associated with given post/page cached file by clicking on "
+"the red X"
+msgstr ""
+"Vous pouvez supprimer le associé fichier en cache avec article/page en "
+"cliquant sur le X rouge"
+
+#: ../bodi0-easy-cache-admin.php:456
+msgid "Pages"
+msgstr "Pages"
+
+#: ../bodi0-easy-cache-admin.php:493 ../bodi0-easy-cache-admin.php:537
+msgid "Delete associated cached file"
+msgstr "Supprimez le fichier mis en cache associé"
+
+#: ../bodi0-easy-cache-admin.php:507
+msgid "Posts"
+msgstr "Articles"
+
+#: ../bodi0-easy-cache-admin.php:553
+msgid "Minify and combine CSS files"
+msgstr "Optimise (Minify) et fusionne les fichiers CSS"
+
+#: ../bodi0-easy-cache-admin.php:554
+msgid ""
+"Insert absolute URL (valid URL according RFC 2396) of CSS files in sequence "
+"of their appearance in non-cached page for minification and combination. "
+"This process will reduce the number and size of HTTP requests to your "
+"server. The CSS files will be merged as single cached CSS resource file, "
+"named<code>_css.min.css</code> and saved in your current theme's folder."
+msgstr ""
+"Récupère les URL absolues (Au sens du RFC 2396) des fichiers CSS au fil de "
+"leur apparition au sein des pages pour optimisation et fusion. Ce process "
+"permlet de réduire le nombre et la taille des requêtes HTTP servies. Les "
+"fichiers CSS sont fusionnés en un seul fichier mis en chache sous le "
+"nom<code>_css.min.css</code> et sauvegardé dans le répertoire de votre thème "
+"courant."
+
+#: ../bodi0-easy-cache-admin.php:557
+msgid ""
+"This file will be included in every cached file, old links will be removed."
+msgstr ""
+"Ce fichier sera inclus dans chaque fichier caché et les anciens liens seront "
+"supprimés."
+
+#: ../bodi0-easy-cache-admin.php:559
+msgid ""
+"Make sure that any URL inside the original CSS code is abosulte, not "
+"relative (otherwise you will have missing backgrounds).  Also make sure you "
+"type the URL of files you want to combine and minify exactly as it is in "
+"your original page / post (for example some stylesheets links may have "
+"dynamic content attached to them, like: <u>http://www.example.com/color.php?"
+"ver=1.2</u>), otherwise minification and combination will not work "
+"correctly. If you modify the original CSS files, remember to save settings "
+"here in order to re-generate cached CSS resource file."
+msgstr ""
+"Assurez vous que les URL au sein du fichier CSS original sont toutes "
+"absolues (Des URL relatives entrainerons des pertes de backgrounds). Prenez "
+"soin d'entrer les URL des fichiers que vous voulez fusionner et optimiser "
+"exactement telles qu'elles apparaissent dans vos pages originales (Par "
+"exemple, certains liens peuvent inclure du contenu dynamiques du genre:"
+"<u>http://www.example.com/color.php?ver=1.2</u>) Sans cela la fusion/"
+"optimisation ne s'effectura pas correctement. Enfin, si vous modifiez les "
+"fichiers CSS originaux, n'oubliez pas de sauvegarder les réglagles ici de "
+"façon à re-générer le CSS ressource mis en cache. "
+
+#: ../bodi0-easy-cache-admin.php:569
+msgid "URL of CSS files, one per line"
+msgstr "URL des fichiers CSS, un par ligne"
+
+#: ../bodi0-easy-cache-admin.php:569
+msgid "duplicates will be removed"
+msgstr "les doublons seront supprimés"
+
+#: ../bodi0-easy-cache-admin.php:614
+msgid ""
+"The <code>allow_url_fopen</code> variable is set to <code>Off</code> in your "
+"<code>php.ini</code> configuration, no CSS minification and combination is "
+"possible. Contact your hosting company or web server administrator for "
+"details how this can be changed."
+msgstr ""
+"La variable <code>allow_url_fopen</code> est positionnée à <code>Off</code> "
+"dans votre <code>php.ini</code> configuration, la fusion & optimisation de "
+"vos CSS est impossible. Contactez votre hébergeur ou votre webmaster pour "
+"remédier à cela."
+
+#: ../bodi0-easy-cache-admin.php:622
+msgid "Do not cache mobile pages/posts"
+msgstr "Ne pas mettre en cache les pages/articles pour mobile"
+
+#: ../bodi0-easy-cache-admin.php:623
+msgid ""
+"Select to skip caching of pages/posts, generated by Jetpack by WordPress.com "
+"mobile theme, highly recommended to set this to 'Yes', otherwise your "
+"website visitors may see a mix of the mobile pages/posts and desktop pages/"
+"posts. Skipping the caching mechanism for mobile version of your website is "
+"necessary, because the Jetpack module by WordPress.com provides his own "
+"caching procedure."
+msgstr ""
+"Seléctionner pour ne pas mettre en cache les pages génerées par Jetpack & "
+"les thèmes pour mobile. Il est hautement recommandé de positionner cela à "
+"'Oui', sans quoi vos visiteurs pourraient se voir présenter un mélange de "
+"pages pour desktop & mobile. La suppression de la mise en cache pour les "
+"mobiles est nécessaire car le module Jetpack de WordPress.com dispose de son "
+"propre mécanisme de cache."
+
+#: ../bodi0-easy-cache-admin.php:628
+msgid "Jetpack module by WordPress.com is Not Available"
+msgstr "Le module Jetpack de WordPress.com n'est pas disponible"
+
+#: ../bodi0-easy-cache-admin.php:658
+msgid "Save settings"
+msgstr "Enregistrer"
+
+#: ../bodi0-easy-cache-admin.php:659
+msgid "Reset"
+msgstr "Réinitialiser"
+
+#: ../bodi0-easy-cache-admin.php:660
+msgid "Restore default settings"
+msgstr "Revenir aux réglages par défaut"
+
+#: ../bodi0-easy-cache-admin.php:722
+msgid "bytes"
+msgstr "bytes"
+
+#: ../bodi0-easy-cache-admin.php:725 ../bodi0-easy-cache-admin.php:843
+#: ../bodi0-easy-cache-admin.php:868 ../bodi0-easy-cache-admin.php:869
+#: ../bodi0-easy-cache-admin.php:870
+msgid "KiB"
+msgstr "KiB"
+
+#: ../bodi0-easy-cache-admin.php:728
+msgid "MiB"
+msgstr "MiB"
+
+#: ../bodi0-easy-cache-admin.php:731
+msgid "GiB"
+msgstr "GiB"
+
+#: ../bodi0-easy-cache-admin.php:735 ../bodi0-easy-cache-admin.php:752
+#: ../bodi0-easy-cache-admin.php:769
+msgid "sec"
+msgstr "sec"
+
+#: ../bodi0-easy-cache-admin.php:738 ../bodi0-easy-cache-admin.php:755
+#: ../bodi0-easy-cache-admin.php:772
+msgid "min"
+msgstr "min"
+
+#: ../bodi0-easy-cache-admin.php:741 ../bodi0-easy-cache-admin.php:758
+#: ../bodi0-easy-cache-admin.php:775
+msgid "h"
+msgstr "h"
+
+#: ../bodi0-easy-cache-admin.php:744 ../bodi0-easy-cache-admin.php:761
+#: ../bodi0-easy-cache-admin.php:778
+msgid "d"
+msgstr "j"
+
+#: ../bodi0-easy-cache-admin.php:747 ../bodi0-easy-cache-admin.php:764
+#: ../bodi0-easy-cache-admin.php:781
+msgid "w"
+msgstr "sem"
+
+#: ../bodi0-easy-cache-admin.php:788
+msgid "Refresh statistics"
+msgstr "Rafraichir les statistiques"
+
+#: ../bodi0-easy-cache-admin.php:792
+msgid "Statistics"
+msgstr "Statistiques"
+
+#: ../bodi0-easy-cache-admin.php:796
+msgid "Average Web Server load"
+msgstr "Charge serveur moyenne"
+
+#: ../bodi0-easy-cache-admin.php:797
+msgid ""
+"These values represents the current system software, average system load in "
+"the last 1, 5 and 15 minutes, also memory usage (current and peak)."
+msgstr ""
+"Ces valeurs représentent 1-la charge instantanée et moyenne pour system "
+"application des dernières 1, 5 et 15 minutes 2-l'usage mémoire (Instantané "
+"et Pic)."
+
+#: ../bodi0-easy-cache-admin.php:798
+msgid "Values above 80 means that your web server is overloaded."
+msgstr ""
+"Des valeurs constamment au dessus de 80 peuvent signifier une surcharge du "
+"serveur."
+
+#: ../bodi0-easy-cache-admin.php:811
+msgid "N/A"
+msgstr "N/A"
+
+#: ../bodi0-easy-cache-admin.php:822
+msgid "Number of cache files found"
+msgstr "Nombre de fichiers mis en cache"
+
+#: ../bodi0-easy-cache-admin.php:823
+msgid "(including cached searches and custom pages)"
+msgstr "(y compris les recherches en cache et des pages personnalisées)"
+
+#: ../bodi0-easy-cache-admin.php:824
+msgid "Files are inside cached folder"
+msgstr ""
+"Les fichiers sont stockés dans le repertoire paramétré ('cached' par défaut)"
+
+#: ../bodi0-easy-cache-admin.php:830
+msgid "Minified and combined CSS file"
+msgstr "Optimiser & fusionner les fichiers CSS"
+
+#: ../bodi0-easy-cache-admin.php:831
+msgid "Details about size of minified and combined CSS file, in folder: "
+msgstr "Détails sur le fichier CSS optimisé dans le répertoire:"
+
+#: ../bodi0-easy-cache-admin.php:843
+msgid " created on "
+msgstr " créé le"
+
+#: ../bodi0-easy-cache-admin.php:846
+msgid "Not Available"
+msgstr "Non disponible"
+
+#: ../bodi0-easy-cache-admin.php:851
+msgid "Cache files age (min/max/avg)"
+msgstr "Age des fichiers en cache(min/max/moy)"
+
+#: ../bodi0-easy-cache-admin.php:852
+msgid "Displays freshness of the cached files."
+msgstr "Information sur la fraicheur des fichiers en cache."
+
+#: ../bodi0-easy-cache-admin.php:864
+msgid "Cache files size (min/max/avg)"
+msgstr "Taille des fichiers en cache(min/max/moy)"
+
+#: ../bodi0-easy-cache-admin.php:865
+msgid "Displays smallest, largest and averaged size of saved cached files."
+msgstr "Affiche taille min max et moyenne des fichiers."
+
+#: ../bodi0-easy-cache-admin.php:874
+msgid "Total space occupied by cache files"
+msgstr "Espace disque occupé par les fichiers en cache"
+
+#: ../bodi0-easy-cache-admin.php:887
+msgid "Delete all cached files"
+msgstr "Supprimer tous les fichiers en cache"
+
+#: ../bodi0-easy-cache-admin.php:890
+msgid "Delete combined and minified CSS file"
+msgstr "Supprimer le fichier CSS optimisé"
+
+#: ../bodi0-easy-cache-admin.php:901
+msgid "If you find this plugin useful, I wont mind if you buy me a beer"
+msgstr ""
+"Si ce plugin vous est utile, je ne vois pas d'inconvénient à ce que vous me "
+"payiez l'équivalent d'une bonne bière "
+
+#: ../bodi0-easy-cache.php:144
+msgid "Easy cache"
+msgstr "Easy cache"
+
+#: ../bodi0-easy-cache.php:156
+msgid "Administration"
+msgstr "Administration"
+
+#~ msgid "Important:"
+#~ msgstr "Important:"
+
+#~ msgid "Important: "
+#~ msgstr "Important:"
+
+#~ msgid "Kibytes"
+#~ msgstr "Kibytes"
+
+#~ msgid "Mibytes"
+#~ msgstr "Mibytes"
+
+#~ msgid "Gibytes"
+#~ msgstr "Gibytes"
+
+#~ msgid ""
+#~ "Warning: cached file for this page/post could not be deleted "
+#~ "automatically. You may want to remove it manually from folder "
+#~ msgstr ""
+#~ "Attention: en cache fichier pour cette page / publication n'a pas pu être "
+#~ "supprimé automatiquement. Vous pouvez supprimer manuellement à partir du "
+#~ "dossier"
+
+#~ msgid "How long to keep cache file (in minutes)"
+#~ msgstr "How long to keep cache file (in minutes)"
+
+#~ msgid "Type here..."
+#~ msgstr "Type here..."
